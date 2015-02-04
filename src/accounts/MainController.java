@@ -52,7 +52,9 @@ public class MainController {
 		Parent content;
 		try {
 			content = (Parent) loader.load();
+			MonthDialogController mdc = loader.getController();
 			Stage stage = new Stage();
+			mdc.setStage(stage);
 			stage.setScene(new Scene(content));
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.showAndWait();
