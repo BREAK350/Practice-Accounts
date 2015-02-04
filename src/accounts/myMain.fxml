@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections ?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+	prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="accounts.MainController">
+	<top>
+		<Pane prefHeight="39.0" prefWidth="778.0" BorderPane.alignment="CENTER">
+			<children>
+				<Button fx:id="btnMonths" layoutX="14.0" layoutY="7.0"
+					mnemonicParsing="false" onAction="#onClickBtnMonths" text="Місяць" />
+				<Button fx:id="btnPrint" layoutX="740.0" layoutY="7.0"
+					mnemonicParsing="false" text="Друк" />
+				<ComboBox fx:id="cmbPrintFormat" layoutX="793.0" layoutY="7.0"
+					prefHeight="25.0" prefWidth="93.0" promptText="Формат">
+					<items>
+						<FXCollections fx:factory="observableArrayList">
+							<String fx:value="odt" />
+							<String fx:value="xls" />
+						</FXCollections>
+					</items>
+				</ComboBox>
+				<Label layoutX="78.0" layoutY="11.0" text="Робочих днів:" />
+				<Label fx:id="lblWorkingDays" layoutX="162.0" layoutY="11.0"
+					text="0" />
+				<Label layoutX="189.0" layoutY="11.0" text="Поточний курс:" />
+				<TextField fx:id="txtRate" layoutX="283.0" layoutY="7.0"
+					prefHeight="25.0" prefWidth="79.0" text="0.0" />
+			</children>
+		</Pane>
+	</top>
+	<center>
+		<Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+			<children>
+				<TableView fx:id="tableAccounts" layoutX="8.0" prefHeight="352.0"
+					prefWidth="885.0">
+					<columns>
+						<TableColumn fx:id="tcNumber" editable="false"
+							prefWidth="75.0" resizable="false" text="№" />
+						<TableColumn fx:id="tcName" minWidth="0.0" prefWidth="258.0"
+							text="ПІБ" />
+						<TableColumn minWidth="0.0" prefWidth="184.0" text="Дні">
+							<columns>
+								<TableColumn fx:id="tcWorkedDays" prefWidth="99.0"
+									text="Відпрацьовані" />
+								<TableColumn fx:id="tcOwnDay" prefWidth="103.0"
+									text="За свій рахунок" />
+								<TableColumn fx:id="tcHospitalDay" minWidth="0.0"
+									prefWidth="70.0" text="Лікарняні" />
+							</columns>
+						</TableColumn>
+						<TableColumn fx:id="tcSalary" minWidth="0.0"
+							prefWidth="78.0" text="Зарплата, €" />
+						<TableColumn fx:id="tcEuroSumm" prefWidth="100.0"
+							text="∑, €" />
+						<TableColumn fx:id="tcUAHSumm" prefWidth="100.0" text="∑, грн" />
+					</columns>
+				</TableView>
+			</children>
+		</Pane>
+	</center>
+</BorderPane>

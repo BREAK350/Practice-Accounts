@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections ?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+	prefWidth="769.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="accounts.MainController">
+	<top>
+		<Pane prefHeight="39.0" prefWidth="778.0" BorderPane.alignment="CENTER">
+			<children>
+				<Button fx:id="btnMonths" layoutX="14.0" layoutY="7.0"
+					mnemonicParsing="false" onAction="#onClickBtnMonths" text="Місяць" />
+				<Button fx:id="btnPrint" layoutX="609.0" layoutY="7.0"
+					mnemonicParsing="false" text="Друк" />
+				<ComboBox fx:id="cmbPrintFormat" layoutX="662.0" layoutY="7.0"
+					prefHeight="25.0" prefWidth="93.0" promptText="Формат">
+					<items>
+						<FXCollections fx:factory="observableArrayList">
+							<String fx:value="odt" />
+							<String fx:value="xls" />
+						</FXCollections>
+					</items>
+				</ComboBox>
+			</children>
+		</Pane>
+	</top>
+	<center>
+		<Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+			<children>
+				<TableView fx:id="tableAccounts" layoutX="8.0" prefHeight="352.0"
+					prefWidth="751.0">
+					<columns>
+						<TableColumn fx:id="tcNumber" editable="false"
+							prefWidth="75.0" resizable="false" text="№" />
+						<TableColumn fx:id="tcName" minWidth="0.0" prefWidth="149.0"
+							text="ПІБ" />
+						<TableColumn prefWidth="151.0" text="Дні">
+							<columns>
+								<TableColumn fx:id="tcWorkDay" prefWidth="75.0"
+									text="Робочі" />
+								<TableColumn fx:id="tcOwnDay" prefWidth="75.0"
+									text="За свій рахунок" />
+								<TableColumn fx:id="tcHospitalDay" prefWidth="75.0"
+									text="Лікарняні" />
+							</columns>
+						</TableColumn>
+						<TableColumn fx:id="tcSalary" prefWidth="75.0" text="€" />
+						<TableColumn fx:id="tcRate" prefWidth="75.0" text="Курс" />
+						<TableColumn fx:id="tcEuroSumm" prefWidth="75.0" text="∑, €" />
+						<TableColumn fx:id="tcUAHSumm" prefWidth="75.0" text="∑, грн" />
+					</columns>
+				</TableView>
+			</children>
+		</Pane>
+	</center>
+</BorderPane>
