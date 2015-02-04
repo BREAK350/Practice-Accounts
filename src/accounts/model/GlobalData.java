@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javafx.stage.Stage;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,6 +18,7 @@ import org.xml.sax.SAXException;
 public class GlobalData {
 	private static int workingDay;
 	private static double rate;
+	public static Stage primaryStage;
 
 	public static int getWorkingDay() {
 		return workingDay;

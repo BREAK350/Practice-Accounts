@@ -13,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import accounts.model.Account;
 import accounts.model.FileLoader;
@@ -53,6 +54,7 @@ public class MainController {
 			content = (Parent) loader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(content));
+			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();

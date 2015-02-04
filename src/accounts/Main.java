@@ -1,5 +1,6 @@
 package accounts;
 
+import accounts.model.GlobalData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ public class Main extends Application {
 					getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			GlobalData.primaryStage = primaryStage;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
