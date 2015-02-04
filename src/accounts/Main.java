@@ -1,24 +1,25 @@
 package accounts;
 
-import accounts.model.GlobalData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = (BorderPane) FXMLLoader.load(getClass()
-					.getResource("myMain.fxml"));
-			Scene scene = new Scene(root);
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("myMain.fxml"));
+			Parent content = (Parent) loader.load();
+			Scene scene = new Scene(content);
 			scene.getStylesheets().add(
 					getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
+			MainController mc = loader.getController();
+			mc.setStage(primaryStage);
 			primaryStage.show();
-			GlobalData.primaryStage = primaryStage;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

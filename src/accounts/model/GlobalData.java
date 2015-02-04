@@ -18,7 +18,6 @@ import org.xml.sax.SAXException;
 public class GlobalData {
 	private static int workingDay;
 	private static double rate;
-	public static Stage primaryStage;
 
 	public static int getWorkingDay() {
 		return workingDay;

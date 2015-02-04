@@ -20,6 +20,7 @@ import accounts.model.FileLoader;
 import accounts.model.GlobalData;
 
 public class MainController {
+	private Stage stage;
 	@FXML
 	private Button btnMonths;
 	@FXML
@@ -44,6 +45,10 @@ public class MainController {
 	private TableColumn<Account, Double> tcEuroSumm;
 	@FXML
 	private TableColumn<Account, Double> tcUAHSumm;
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
 
 	@FXML
 	public void onClickBtnMonths() {
