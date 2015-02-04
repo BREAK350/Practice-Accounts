@@ -45,6 +45,8 @@ public class MainController {
 	private TableColumn<Account, Double> tcEuroSumm;
 	@FXML
 	private TableColumn<Account, Double> tcUAHSumm;
+	@FXML
+	private Button btnGetRate;
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
@@ -97,12 +99,17 @@ public class MainController {
 
 	@FXML
 	private void initialize() {
-		GlobalData.getRateFromWeb();
+		onClickBtnGetRate();
 		GlobalData.setWorkingDay(21);
-		txtRate.setText(String.valueOf(GlobalData.getRate()));
 		lblWorkingDays.setText(String.valueOf(GlobalData.getWorkingDay()));
 		setCellValueFactory();
 		fillTable();
+	}
+
+	@FXML
+	private void onClickBtnGetRate() {
+		GlobalData.getRateFromWeb();
+		txtRate.setText(String.valueOf(GlobalData.getRate()));
 	}
 
 	public void fillTable() {
