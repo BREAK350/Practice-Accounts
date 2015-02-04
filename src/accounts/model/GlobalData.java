@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javafx.stage.Stage;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -38,17 +36,6 @@ public class GlobalData {
 	public static void getRateFromWeb() {
 		String url = "http://bank-ua.com/export/currrate.xml";
 		double r = 0;
-		/*
-		 * XMLReader myReader; try { myReader =
-		 * XMLReaderFactory.createXMLReader(); myReader.setContentHandler(new
-		 * DefaultHandler()); try { myReader.parse(new InputSource(new
-		 * URL(url).openStream()));
-		 * 
-		 * } catch (MalformedURLException e) { e.printStackTrace(); } catch
-		 * (IOException e) { e.printStackTrace(); } catch (SAXException e) {
-		 * e.printStackTrace(); } } catch (SAXException e) {
-		 * e.printStackTrace(); }
-		 */
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db;
 		try {

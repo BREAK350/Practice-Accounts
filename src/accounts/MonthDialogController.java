@@ -26,6 +26,6 @@ public class MonthDialogController {
 
 	@FXML
 	public void onClickOkButton() {
-
+		stage.close();
 	}
 }

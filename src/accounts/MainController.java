@@ -68,6 +68,10 @@ public class MainController {
 		}
 	}
 
+	public void setWorkingDays(int days) {
+		GlobalData.setWorkingDay(days);
+	}
+
 	public void setCellValueFactory() {
 		tcNumber.setCellValueFactory(new PropertyValueFactory<Account, Integer>(
 				"id"));
