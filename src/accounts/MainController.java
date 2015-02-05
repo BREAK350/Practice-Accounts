@@ -1,5 +1,7 @@
 package accounts;
 
+import java.awt.Dialog;
+import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
@@ -10,11 +12,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import accounts.model.Account;
@@ -50,6 +54,9 @@ public class MainController {
 	private TableColumn<TableRow, String> tcUAHSumm;
 	@FXML
 	private Button btnGetRate;
+	@FXML
+	private ComboBox cmbPrintFormat;
+
 	private ObservableList<TableRow> items = FXCollections
 			.observableArrayList();
 
@@ -129,7 +136,28 @@ public class MainController {
 
 	@FXML
 	private void onClickBtnPrint() {
-		// setValueWithReplace(2, new TableRow(10, "ehgvrbfhvg", 5, 3, 1000));
+		Object type = cmbPrintFormat.getValue();
+		if (type != null) {
+			String stype = (String) type;
+			FileChooser fileChooser = new FileChooser();
+
+			// Set extension filter
+			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+					stype.toUpperCase() + " files (*." + stype + ")", "*."
+							+ stype);
+			fileChooser.getExtensionFilters().add(extFilter);
+
+			// Show save file dialog
+			File file = fileChooser.showSaveDialog(stage);
+			System.out.println("file is " + file.getPath());
+			if (stype.equals("xls")) {
+				// save as xls file
+			} else if (stype.equals("odt")) {
+				// save as odt file
+			}
+		} else {
+			// show error
+		}
 	}
 
 	public Account setValueWithReplace(int row, TableRow tableRow) {
@@ -147,8 +175,12 @@ public class MainController {
 	private void reloadTable() {
 		if (items != null) {
 			int n = items.size();
+			System.out.println(GlobalData.getWorkingDay());
 			for (int i = 0; i < n; i++) {
 				TableRow tr = getValue(i);
+				tr.setWorkedDays(getWorkedDays(tr));
+				tr.setEURSumm(getEURSumm(tr));
+				tr.setUAHSumm(getUAHSumm(tr.getEURSumm()));
 				setValueWithReplace(i, tr);
 				System.out.println(tr);
 			}
