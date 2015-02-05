@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,8 +13,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -93,6 +96,21 @@ public class MainController {
 		accsData.setMonth(month);
 		changeMonth();
 		fillTable();
+		tcOwnDay.setCellFactory(TextFieldTableCell.<TableRow> forTableColumn());
+		tcOwnDay.setOnEditCommit(new EventHandler<CellEditEvent<TableRow, String>>() {
+			public void handle(CellEditEvent<TableRow, String> t) {
+				((TableRow) t.getTableView().getItems()
+						.get(t.getTablePosition().getRow())).setIndex(10);
+			}
+		});
+		
+		tcHospitalDay.setCellFactory(TextFieldTableCell.<TableRow> forTableColumn());
+		tcHospitalDay.setOnEditCommit(new EventHandler<CellEditEvent<TableRow, String>>() {
+			public void handle(CellEditEvent<TableRow, String> t) {
+				((TableRow) t.getTableView().getItems()
+						.get(t.getTablePosition().getRow())).setIndex(10);
+			}
+		});
 	}
 
 	private int getCurrMonth() {

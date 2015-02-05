@@ -20,8 +20,8 @@ public class TableRow extends Account {
 
 	public TableRow(int index, Account account, int workedDays, double EURSumm,
 			double UAHSumm) {
-		super(account.getName(), account.getOwnDay(), account.getHospitalDay(),
-				account.getSalary());
+		super(account.getName(), Integer.parseInt(account.getOwnDay()), Integer
+				.parseInt(account.getHospitalDay()), account.getSalary());
 		setIndex(index);
 		setWorkedDays(workedDays);
 		setEURSumm(EURSumm);

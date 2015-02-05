@@ -54,12 +54,14 @@ public class AccountsData {
 	}
 
 	private int getWorkedDays(Account account) {
-		return getWorkedDays(account.getOwnDay(), account.getHospitalDay());
+		return getWorkedDays(Integer.parseInt(account.getOwnDay()),
+				Integer.parseInt(account.getHospitalDay()));
 	}
 
 	private double getEURSumm(Account account) {
-		return getEURSumm(account.getSalary(), account.getOwnDay(),
-				account.getHospitalDay());
+		return getEURSumm(account.getSalary(),
+				Integer.parseInt(account.getOwnDay()),
+				Integer.parseInt(account.getHospitalDay()));
 	}
 
 	private double getUAHSumm(double EURSumm) {

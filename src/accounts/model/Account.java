@@ -1,13 +1,12 @@
 package accounts.model;
 
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Account {
 	private SimpleStringProperty name = new SimpleStringProperty();
-	private SimpleIntegerProperty ownDay = new SimpleIntegerProperty();
-	private SimpleIntegerProperty hospitalDay = new SimpleIntegerProperty();
+	private SimpleStringProperty ownDay = new SimpleStringProperty();
+	private SimpleStringProperty hospitalDay = new SimpleStringProperty();
 	private SimpleDoubleProperty salary = new SimpleDoubleProperty();
 
 	public Account(String name, int ownDay, int hospitalDay, double salary) {
@@ -25,20 +24,20 @@ public class Account {
 		this.name.set(name);
 	}
 
-	public int getHospitalDay() {
+	public String getHospitalDay() {
 		return hospitalDay.get();
 	}
 
 	public void setHospitalDay(int hospitalDay) {
-		this.hospitalDay.set(hospitalDay > 0 ? hospitalDay : 0);
+		this.hospitalDay.set(String.valueOf(hospitalDay > 0 ? hospitalDay : 0));
 	}
 
-	public int getOwnDay() {
+	public String getOwnDay() {
 		return ownDay.get();
 	}
 
 	public void setOwnDay(int ownDay) {
-		this.ownDay.set(ownDay > 0 ? ownDay : 0);
+		this.ownDay.set(String.valueOf(ownDay > 0 ? ownDay : 0));
 	}
 
 	public double getSalary() {
