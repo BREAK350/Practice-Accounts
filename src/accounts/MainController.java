@@ -1,6 +1,5 @@
 package accounts;
 
-import java.awt.Dialog;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
@@ -21,6 +20,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import accounts.file.FileWriter;
+import accounts.file.xls.XLSWriter;
 import accounts.model.Account;
 import accounts.model.FileLoader;
 import accounts.model.GlobalData;
@@ -152,12 +153,18 @@ public class MainController {
 			System.out.println("file is " + file.getPath());
 			if (stype.equals("xls")) {
 				// save as xls file
+				saveAsXLS(file);
 			} else if (stype.equals("odt")) {
 				// save as odt file
 			}
 		} else {
 			// show error
 		}
+	}
+
+	private void saveAsXLS(File file) {
+		FileWriter xls = new XLSWriter();
+		xls.writeIn(file);
 	}
 
 	public Account setValueWithReplace(int row, TableRow tableRow) {
