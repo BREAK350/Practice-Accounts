@@ -1,5 +1,7 @@
 package accounts.model;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -14,15 +16,16 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class GlobalData {
-	private static int workingDay;
+	private static int month;
+	private static int[] workingDays = new int[12];
 	private static double rate;
 
 	public static int getWorkingDay() {
-		return workingDay;
+		return workingDays[month];
 	}
 
-	public static void setWorkingDay(int workingDay) {
-		GlobalData.workingDay = workingDay;
+	public static void setMonth(int month) {
+		GlobalData.month = month;
 	}
 
 	public static double getRate() {
@@ -33,7 +36,25 @@ public class GlobalData {
 		GlobalData.rate = rate;
 	}
 
-	public static void getRateFromWeb() {
+	public static void loadWorkingDays() {
+		String fileName = "Months.txt";
+		try {
+			@SuppressWarnings("resource")
+			BufferedReader inputStream = new BufferedReader(
+					new java.io.FileReader(fileName));
+			for (int i = 0; i < 12; i++) {
+				workingDays[i] = Integer.parseInt(inputStream.readLine());
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void loadRateFromWeb() {
 		String url = "http://bank-ua.com/export/currrate.xml";
 		double r = 0;
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

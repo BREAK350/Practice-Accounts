@@ -1,6 +1,7 @@
 package accounts;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -52,6 +53,10 @@ public class MainController {
 		this.stage = stage;
 	}
 
+	public Stage getStage() {
+		return stage;
+	}
+
 	@FXML
 	public void onClickBtnMonths() {
 		FXMLLoader loader = new FXMLLoader();
@@ -71,7 +76,7 @@ public class MainController {
 	}
 
 	public void setWorkingDays(int days) {
-		GlobalData.setWorkingDay(days);
+
 	}
 
 	public void setCellValueFactory() {
@@ -100,15 +105,22 @@ public class MainController {
 	@FXML
 	private void initialize() {
 		onClickBtnGetRate();
-		GlobalData.setWorkingDay(21);
+		GlobalData.loadWorkingDays();
+		int month = getCurrMonth();
+		GlobalData.setMonth(month);
 		lblWorkingDays.setText(String.valueOf(GlobalData.getWorkingDay()));
 		setCellValueFactory();
 		fillTable();
 	}
 
+	private int getCurrMonth() {
+		Calendar cal = Calendar.getInstance();
+		return cal.get(Calendar.MONTH);
+	}
+
 	@FXML
 	private void onClickBtnGetRate() {
-		GlobalData.getRateFromWeb();
+		GlobalData.loadRateFromWeb();
 		txtRate.setText(String.valueOf(GlobalData.getRate()));
 		tableAccounts.setVisible(false);
 		tableAccounts.setVisible(true);
