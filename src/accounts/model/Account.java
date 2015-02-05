@@ -5,19 +5,16 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Account {
-	private SimpleIntegerProperty id = new SimpleIntegerProperty();
 	private SimpleStringProperty name = new SimpleStringProperty();
 	private SimpleIntegerProperty ownDay = new SimpleIntegerProperty();
 	private SimpleIntegerProperty hospitalDay = new SimpleIntegerProperty();
 	private SimpleDoubleProperty salary = new SimpleDoubleProperty();
 
-	public Account(int id, String name, int hospitalDay, int ownDay,
-			double salary) {
-		this.id = new SimpleIntegerProperty(id);
-		this.name = new SimpleStringProperty(name);
-		this.hospitalDay = new SimpleIntegerProperty(hospitalDay);
-		this.ownDay = new SimpleIntegerProperty(ownDay);
-		this.salary = new SimpleDoubleProperty(salary);
+	public Account(String name, int ownDay, int hospitalDay, double salary) {
+		setName(name);
+		setOwnDay(ownDay);
+		setHospitalDay(hospitalDay);
+		setSalary(salary);
 	}
 
 	public String getName() {
@@ -34,14 +31,6 @@ public class Account {
 
 	public void setHospitalDay(int hospitalDay) {
 		this.hospitalDay.set(hospitalDay > 0 ? hospitalDay : 0);
-	}
-
-	public int getId() {
-		return id.get();
-	}
-
-	public void setId(int id) {
-		this.id.set(id > 0 ? id : 0);
 	}
 
 	public int getOwnDay() {
@@ -79,4 +68,5 @@ public class Account {
 	public int getWorkedDays() {
 		return GlobalData.getWorkingDay() - getOwnDay() - getHospitalDay();
 	}
+
 }

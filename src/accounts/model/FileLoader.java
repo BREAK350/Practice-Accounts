@@ -22,13 +22,11 @@ public class FileLoader implements AbstractLoader {
 					new java.io.FileReader(fileName));
 			String row;
 			Account ac;
-			int id = 1;
 			while ((row = inputStream.readLine()) != null) {
 				String[] data = row.split("\t");
-				ac = new Account(id, data[0], Integer.parseInt(data[1]),
+				ac = new Account(data[0], Integer.parseInt(data[1]),
 						Integer.parseInt(data[2]), Double.parseDouble(data[3]));
 				list.add(ac);
-				++id;
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
