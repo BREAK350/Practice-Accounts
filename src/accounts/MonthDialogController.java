@@ -1,11 +1,11 @@
 package accounts;
 
-import accounts.model.GlobalData;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
+import accounts.model.AccountsData;
 
 public class MonthDialogController {
 	@FXML
@@ -16,9 +16,14 @@ public class MonthDialogController {
 	private Button cancelButton;
 
 	private Stage stage;
+	private AccountsData accsData;
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
+	}
+
+	public void setAccsData(AccountsData accsData) {
+		this.accsData = accsData;
 	}
 
 	@FXML
@@ -35,7 +40,7 @@ public class MonthDialogController {
 			i++;
 		}
 		if (i < 12) {
-			GlobalData.setMonth(i);
+			accsData.setMonth(i);
 		}
 		stage.close();
 	}

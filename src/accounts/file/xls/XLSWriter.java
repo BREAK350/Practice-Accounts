@@ -18,12 +18,13 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 import accounts.file.FileWriter;
+import accounts.model.AccountsData;
 
 public class XLSWriter implements FileWriter {
 	private WritableCellFormat timesBoldUnderline;
 	private WritableCellFormat times;
 
-	public void writeIn(File file) {
+	public void writeIn(AccountsData accsData, File file) {
 		WorkbookSettings wbSettings = new WorkbookSettings();
 
 		wbSettings.setLocale(new Locale("en", "EN"));

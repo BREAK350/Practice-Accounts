@@ -48,25 +48,4 @@ public class Account {
 	public void setSalary(double salary) {
 		this.salary.set(salary > 0 ? salary : 0);
 	}
-
-	public static double round(double value, int accuracy) {
-		return ((int) (value * accuracy)) / ((double) accuracy);
-	}
-
-	public double getEURSumm() {
-		double salaryInDay = getSalary() / GlobalData.getWorkingDay();
-		double worked = getWorkedDays() * salaryInDay;
-		double hospitaled = getHospitalDay() * salaryInDay * 0.50;
-		double res = round(worked + hospitaled, 100);
-		return res;
-	}
-
-	public double getUAHSumm() {
-		return round(getEURSumm() * GlobalData.getRate(), 100);
-	}
-
-	public int getWorkedDays() {
-		return GlobalData.getWorkingDay() - getOwnDay() - getHospitalDay();
-	}
-
 }
