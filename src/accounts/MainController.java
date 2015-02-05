@@ -110,6 +110,8 @@ public class MainController {
 	private void onClickBtnGetRate() {
 		GlobalData.getRateFromWeb();
 		txtRate.setText(String.valueOf(GlobalData.getRate()));
+		tableAccounts.setVisible(false);
+		tableAccounts.setVisible(true);
 	}
 
 	public void fillTable() {
