@@ -14,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -86,30 +85,6 @@ public class MainController {
 		}
 	}
 
-	public void setCellValueFactory() {
-		tcNumber.setCellValueFactory(new PropertyValueFactory<TableRow, String>(
-				"index"));
-		tcName.setCellValueFactory(new PropertyValueFactory<TableRow, String>(
-				"name"));
-		tcOwnDay.setCellValueFactory(new PropertyValueFactory<TableRow, String>(
-				"ownDay"));
-		tcHospitalDay
-				.setCellValueFactory(new PropertyValueFactory<TableRow, String>(
-						"hospitalDay"));
-		tcSalary.setCellValueFactory(new PropertyValueFactory<TableRow, String>(
-				"salary"));
-		tcEuroSumm
-				.setCellValueFactory(new PropertyValueFactory<TableRow, String>(
-						"EURSumm"));
-		tcUAHSumm
-				.setCellValueFactory(new PropertyValueFactory<TableRow, String>(
-						"UAHSumm"));
-		tcWorkedDays
-				.setCellValueFactory(new PropertyValueFactory<TableRow, String>(
-						"workedDays"));
-		// tcName.setCellFactory(TextFieldTableCell.forTableColumn());
-	}
-
 	@FXML
 	private void initialize() {
 		onClickBtnGetRate();
@@ -117,7 +92,6 @@ public class MainController {
 		int month = getCurrMonth();
 		accsData.setMonth(month);
 		changeMonth();
-		setCellValueFactory();
 		fillTable();
 	}
 

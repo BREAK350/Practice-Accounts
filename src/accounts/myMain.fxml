@@ -5,6 +5,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.collections.FXCollections ?>
+<?import javafx.scene.control.cell.*?> 
+<?import javafx.collections.*?> 
+<?import fxmltableview.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
@@ -43,24 +46,56 @@
 					prefWidth="885.0">
 					<columns>
 						<TableColumn fx:id="tcNumber" editable="false"
-							prefWidth="75.0" resizable="false" text="№" />
+							prefWidth="75.0" resizable="false" text="№">
+							<cellValueFactory>
+								<PropertyValueFactory property="index" />
+							</cellValueFactory>
+						</TableColumn>
 						<TableColumn fx:id="tcName" minWidth="0.0" prefWidth="258.0"
-							text="ПІБ" />
+							text="ПІБ">
+							<cellValueFactory>
+								<PropertyValueFactory property="name" />
+							</cellValueFactory>
+						</TableColumn>
 						<TableColumn minWidth="0.0" prefWidth="184.0" text="Дні">
 							<columns>
 								<TableColumn fx:id="tcWorkedDays" prefWidth="99.0"
-									text="Відпрацьовані" />
+									text="Відпрацьовані">
+									<cellValueFactory>
+										<PropertyValueFactory property="workedDays" />
+									</cellValueFactory>
+								</TableColumn>
 								<TableColumn fx:id="tcOwnDay" prefWidth="103.0"
-									text="За свій рахунок" />
+									text="За свій рахунок">
+									<cellValueFactory>
+										<PropertyValueFactory property="ownDay" />
+									</cellValueFactory>
+								</TableColumn>
 								<TableColumn fx:id="tcHospitalDay" minWidth="0.0"
-									prefWidth="70.0" text="Лікарняні" />
+									prefWidth="70.0" text="Лікарняні">
+									<cellValueFactory>
+										<PropertyValueFactory property="hospitalDay" />
+									</cellValueFactory>
+								</TableColumn>
 							</columns>
 						</TableColumn>
 						<TableColumn fx:id="tcSalary" minWidth="0.0"
-							prefWidth="78.0" text="Зарплата, €" />
+							prefWidth="78.0" text="Зарплата, €">
+							<cellValueFactory>
+								<PropertyValueFactory property="salary" />
+							</cellValueFactory>
+						</TableColumn>
 						<TableColumn fx:id="tcEuroSumm" prefWidth="100.0"
-							text="∑, €" />
-						<TableColumn fx:id="tcUAHSumm" prefWidth="100.0" text="∑, грн" />
+							text="∑, €">
+							<cellValueFactory>
+								<PropertyValueFactory property="EURSumm" />
+							</cellValueFactory>
+						</TableColumn>
+						<TableColumn fx:id="tcUAHSumm" prefWidth="100.0" text="∑, грн">
+							<cellValueFactory>
+								<PropertyValueFactory property="UAHSumm" />
+							</cellValueFactory>
+						</TableColumn>
 					</columns>
 				</TableView>
 			</children>
