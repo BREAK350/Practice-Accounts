@@ -48,6 +48,7 @@ public class MainController {
 	private TableColumn<Account, Double> tcUAHSumm;
 	@FXML
 	private Button btnGetRate;
+	private ObservableList<Account> items;
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
@@ -70,13 +71,10 @@ public class MainController {
 			stage.setScene(new Scene(content));
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.showAndWait();
+			changeMonth();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void setWorkingDays(int days) {
-
 	}
 
 	public void setCellValueFactory() {
@@ -108,7 +106,7 @@ public class MainController {
 		GlobalData.loadWorkingDays();
 		int month = getCurrMonth();
 		GlobalData.setMonth(month);
-		lblWorkingDays.setText(String.valueOf(GlobalData.getWorkingDay()));
+		changeMonth();
 		setCellValueFactory();
 		fillTable();
 	}
@@ -122,13 +120,24 @@ public class MainController {
 	private void onClickBtnGetRate() {
 		GlobalData.loadRateFromWeb();
 		txtRate.setText(String.valueOf(GlobalData.getRate()));
+		reloadTable();
+	}
+
+	private void reloadTable() {
 		tableAccounts.setVisible(false);
 		tableAccounts.setVisible(true);
 	}
 
+	private void changeMonth() {
+		lblWorkingDays.setText(String.valueOf(GlobalData.getWorkingDay()));
+		// reloadTable();
+		tcWorkedDays.setVisible(false);
+		tcWorkedDays.setVisible(true);
+	}
+
 	public void fillTable() {
 		FileLoader fl = new FileLoader("Employees.txt");
-		ObservableList<Account> items = fl.load();
+		items = fl.load();
 		tableAccounts.setItems(items);
 	}
 }
