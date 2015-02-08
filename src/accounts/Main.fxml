@@ -1,61 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.collections.FXCollections ?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.collections.*?>
+<?import fxmltableview.*?>
+<?import accounts.model.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-	prefWidth="769.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="accounts.MainController">
-	<top>
-		<Pane prefHeight="39.0" prefWidth="778.0" BorderPane.alignment="CENTER">
-			<children>
-				<Button fx:id="btnMonths" layoutX="14.0" layoutY="7.0"
-					mnemonicParsing="false" onAction="#onClickBtnMonths" text="Місяць" />
-				<Button fx:id="btnPrint" layoutX="609.0" layoutY="7.0"
-					mnemonicParsing="false" text="Друк" />
-				<ComboBox fx:id="cmbPrintFormat" layoutX="662.0" layoutY="7.0"
-					prefHeight="25.0" prefWidth="93.0" promptText="Формат">
-					<items>
-						<FXCollections fx:factory="observableArrayList">
-							<String fx:value="odt" />
-							<String fx:value="xls" />
-						</FXCollections>
-					</items>
-				</ComboBox>
-			</children>
-		</Pane>
-	</top>
-	<center>
-		<Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-			<children>
-				<TableView fx:id="tableAccounts" layoutX="8.0" prefHeight="352.0"
-					prefWidth="751.0">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="accounts.MainController">
+   <center>
+				<TableView fx:id="table" editable="true" prefHeight="352.0" prefWidth="885.0" BorderPane.alignment="CENTER">
 					<columns>
-						<TableColumn fx:id="tcNumber" editable="false"
-							prefWidth="75.0" resizable="false" text="№" />
-						<TableColumn fx:id="tcName" minWidth="0.0" prefWidth="149.0"
-							text="ПІБ" />
-						<TableColumn prefWidth="151.0" text="Дні">
+						<TableColumn fx:id="index" editable="false" prefWidth="75.0" resizable="false" text="№">
+							
+						</TableColumn>
+						<TableColumn fx:id="name" minWidth="0.0" prefWidth="258.0" text="ПІБ">
+							
+						</TableColumn>
+						<TableColumn minWidth="0.0" prefWidth="184.0" text="Дні">
 							<columns>
-								<TableColumn fx:id="tcWorkDay" prefWidth="75.0"
-									text="Робочі" />
-								<TableColumn fx:id="tcOwnDay" prefWidth="75.0"
-									text="За свій рахунок" />
-								<TableColumn fx:id="tcHospitalDay" prefWidth="75.0"
-									text="Лікарняні" />
+								<TableColumn fx:id="worked" prefWidth="99.0" text="Відпрацьовані">
+									
+								</TableColumn>
+								<TableColumn fx:id="own" editable="true" prefWidth="103.0" text="За свій рахунок">
+									
+								</TableColumn>
+								<TableColumn fx:id="hospital" editable="true" minWidth="0.0" prefWidth="70.0" text="Лікарняні">
+									
+								</TableColumn>
 							</columns>
 						</TableColumn>
-						<TableColumn fx:id="tcSalary" prefWidth="75.0" text="€" />
-						<TableColumn fx:id="tcRate" prefWidth="75.0" text="Курс" />
-						<TableColumn fx:id="tcEuroSumm" prefWidth="75.0" text="∑, €" />
-						<TableColumn fx:id="tcUAHSumm" prefWidth="75.0" text="∑, грн" />
+						<TableColumn fx:id="salary" minWidth="0.0" prefWidth="78.0" text="Зарплата, €">
+							
+						</TableColumn>
+						<TableColumn fx:id="eur" prefWidth="100.0" text="∑, €">
+							
+						</TableColumn>
+						<TableColumn fx:id="uah" prefWidth="100.0" text="∑, грн">
+					
+						</TableColumn>
 					</columns>
+         <padding>
+            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+         </padding>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
 				</TableView>
-			</children>
-		</Pane>
-	</center>
+   </center>
+   <top>
+      <AnchorPane prefHeight="39.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="412.0" spacing="7.0" AnchorPane.leftAnchor="7.0">
+               <children>
+      				<Button fx:id="btnMonths" mnemonicParsing="false" text="Місяць" />
+      				<Label text="Робочих днів:" />
+      				<Label fx:id="lblWorkingDays" text="0" />
+      				<Button fx:id="btnGetRate" mnemonicParsing="false" text="Поточний курс:" />
+      				<TextField fx:id="txtRate" prefHeight="25.0" prefWidth="79.0" text="0.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="180.0" spacing="7.0" AnchorPane.rightAnchor="7.0">
+               <children>
+      				<Button fx:id="btnPrint" mnemonicParsing="false" text="Друк" />
+      				<ComboBox fx:id="cmbPrintFormat" prefHeight="25.0" prefWidth="100.0" promptText="Формат">
+      					<items>
+      						<FXCollections fx:factory="observableArrayList">
+      							<String fx:value="odt" />
+      							<String fx:value="xls" />
+      						</FXCollections>
+      					</items>
+      				</ComboBox>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </top>
 </BorderPane>
