@@ -38,6 +38,7 @@ public class Account {
 
 	public void setOwnDay(int ownDay) {
 		this.ownDay.set(String.valueOf(ownDay > 0 ? ownDay : 0));
+		System.out.println("set " + ownDay);
 	}
 
 	public double getSalary() {
@@ -46,5 +47,11 @@ public class Account {
 
 	public void setSalary(double salary) {
 		this.salary.set(salary > 0 ? salary : 0);
+	}
+
+	@Override
+	public String toString() {
+		return "Account [name=" + name + ", ownDay=" + ownDay
+				+ ", hospitalDay=" + hospitalDay + ", salary=" + salary + "]";
 	}
 }

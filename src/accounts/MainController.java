@@ -99,18 +99,23 @@ public class MainController {
 		tcOwnDay.setCellFactory(TextFieldTableCell.<TableRow> forTableColumn());
 		tcOwnDay.setOnEditCommit(new EventHandler<CellEditEvent<TableRow, String>>() {
 			public void handle(CellEditEvent<TableRow, String> t) {
+				System.out.println(t.getTableView().getItems()
+						.get(t.getTablePosition().getRow()));
 				((TableRow) t.getTableView().getItems()
 						.get(t.getTablePosition().getRow())).setIndex(10);
 			}
 		});
-		
-		tcHospitalDay.setCellFactory(TextFieldTableCell.<TableRow> forTableColumn());
-		tcHospitalDay.setOnEditCommit(new EventHandler<CellEditEvent<TableRow, String>>() {
-			public void handle(CellEditEvent<TableRow, String> t) {
-				((TableRow) t.getTableView().getItems()
-						.get(t.getTablePosition().getRow())).setIndex(10);
-			}
-		});
+
+		tcHospitalDay.setCellFactory(TextFieldTableCell
+				.<TableRow> forTableColumn());
+		tcHospitalDay
+				.setOnEditCommit(new EventHandler<CellEditEvent<TableRow, String>>() {
+					public void handle(CellEditEvent<TableRow, String> t) {
+						((TableRow) t.getTableView().getItems()
+								.get(t.getTablePosition().getRow()))
+								.setIndex(10);
+					}
+				});
 	}
 
 	private int getCurrMonth() {

@@ -1,93 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.collections.FXCollections ?>
-<?import javafx.scene.control.cell.*?> 
-<?import javafx.collections.*?> 
+<?import javafx.scene.control.cell.*?>
+<?import javafx.collections.*?>
 <?import fxmltableview.*?>
 <?import accounts.model.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-	prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="accounts.MainController">
-	<top>
-		<Pane prefHeight="39.0" prefWidth="778.0" BorderPane.alignment="CENTER">
-			<children>
-				<Button fx:id="btnMonths" layoutX="14.0" layoutY="7.0"
-					mnemonicParsing="false" onAction="#onClickBtnMonths" text="Місяць" />
-				<Button fx:id="btnPrint" layoutX="740.0" layoutY="7.0"
-					mnemonicParsing="false" onAction="#onClickBtnPrint" text="Друк" />
-				<ComboBox fx:id="cmbPrintFormat" layoutX="793.0" layoutY="7.0"
-					prefHeight="25.0" prefWidth="93.0" promptText="Формат">
-					<items>
-						<FXCollections fx:factory="observableArrayList">
-							<String fx:value="odt" />
-							<String fx:value="xls" />
-						</FXCollections>
-					</items>
-				</ComboBox>
-				<Label layoutX="78.0" layoutY="11.0" text="Робочих днів:" />
-				<Label fx:id="lblWorkingDays" layoutX="162.0" layoutY="11.0"
-					text="0" />
-				<TextField fx:id="txtRate" layoutX="304.0" layoutY="7.0"
-					prefHeight="25.0" prefWidth="79.0" text="0.0" />
-				<Button fx:id="btnGetRate" layoutX="196.0" layoutY="7.0"
-					mnemonicParsing="false" onAction="#onClickBtnGetRate" text="Поточний курс:" />
-			</children>
-		</Pane>
-	</top>
-	<center>
-		<Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-			<children>
-				<TableView fx:id="tableAccounts" layoutX="8.0" prefHeight="352.0"
-					prefWidth="885.0" editable="true">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="accounts.MainController">
+   <center>
+				<TableView fx:id="tableAccounts" editable="true" prefHeight="352.0" prefWidth="885.0" BorderPane.alignment="CENTER">
 					<columns>
-						<TableColumn fx:id="tcNumber" editable="false"
-							prefWidth="75.0" resizable="false" text="№">
+						<TableColumn fx:id="tcNumber" editable="false" prefWidth="75.0" resizable="false" text="№">
 							<cellValueFactory>
 								<PropertyValueFactory property="index" />
 							</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="tcName" minWidth="0.0" prefWidth="258.0"
-							text="ПІБ">
+						<TableColumn fx:id="tcName" minWidth="0.0" prefWidth="258.0" text="ПІБ">
 							<cellValueFactory>
 								<PropertyValueFactory property="name" />
 							</cellValueFactory>
 						</TableColumn>
 						<TableColumn minWidth="0.0" prefWidth="184.0" text="Дні">
 							<columns>
-								<TableColumn fx:id="tcWorkedDays" prefWidth="99.0"
-									text="Відпрацьовані">
+								<TableColumn fx:id="tcWorkedDays" prefWidth="99.0" text="Відпрацьовані">
 									<cellValueFactory>
 										<PropertyValueFactory property="workedDays" />
 									</cellValueFactory>
 								</TableColumn>
-								<TableColumn fx:id="tcOwnDay" prefWidth="103.0"
-									text="За свій рахунок" editable="true">
+								<TableColumn fx:id="tcOwnDay" editable="true" prefWidth="103.0" text="За свій рахунок">
 									<cellValueFactory>
 										<PropertyValueFactory property="ownDay" />
 									</cellValueFactory>
 								</TableColumn>
-								<TableColumn fx:id="tcHospitalDay" minWidth="0.0"
-									prefWidth="70.0" text="Лікарняні" editable="true">
+								<TableColumn fx:id="tcHospitalDay" editable="true" minWidth="0.0" prefWidth="70.0" text="Лікарняні">
 									<cellValueFactory>
 										<PropertyValueFactory property="hospitalDay" />
 									</cellValueFactory>
 								</TableColumn>
 							</columns>
 						</TableColumn>
-						<TableColumn fx:id="tcSalary" minWidth="0.0"
-							prefWidth="78.0" text="Зарплата, €">
+						<TableColumn fx:id="tcSalary" minWidth="0.0" prefWidth="78.0" text="Зарплата, €">
 							<cellValueFactory>
 								<PropertyValueFactory property="salary" />
 							</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="tcEuroSumm" prefWidth="100.0"
-							text="∑, €">
+						<TableColumn fx:id="tcEuroSumm" prefWidth="100.0" text="∑, €">
 							<cellValueFactory>
 								<PropertyValueFactory property="EURSumm" />
 							</cellValueFactory>
@@ -98,8 +60,40 @@
 							</cellValueFactory>
 						</TableColumn>
 					</columns>
+         <padding>
+            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+         </padding>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
 				</TableView>
-			</children>
-		</Pane>
-	</center>
+   </center>
+   <top>
+      <AnchorPane prefHeight="39.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="412.0" spacing="7.0" AnchorPane.leftAnchor="7.0">
+               <children>
+      				<Button fx:id="btnMonths" mnemonicParsing="false" onAction="#onClickBtnMonths" text="Місяць" />
+      				<Label text="Робочих днів:" />
+      				<Label fx:id="lblWorkingDays" text="0" />
+      				<Button fx:id="btnGetRate" mnemonicParsing="false" onAction="#onClickBtnGetRate" text="Поточний курс:" />
+      				<TextField fx:id="txtRate" prefHeight="25.0" prefWidth="79.0" text="0.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="180.0" spacing="7.0" AnchorPane.rightAnchor="7.0">
+               <children>
+      				<Button fx:id="btnPrint" mnemonicParsing="false" onAction="#onClickBtnPrint" text="Друк" />
+      				<ComboBox fx:id="cmbPrintFormat" prefHeight="25.0" prefWidth="100.0" promptText="Формат">
+      					<items>
+      						<FXCollections fx:factory="observableArrayList">
+      							<String fx:value="odt" />
+      							<String fx:value="xls" />
+      						</FXCollections>
+      					</items>
+      				</ComboBox>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </top>
 </BorderPane>

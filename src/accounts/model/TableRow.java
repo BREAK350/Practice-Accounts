@@ -59,4 +59,11 @@ public class TableRow extends Account {
 	public void setUAHSumm(double UAHsumm) {
 		this.UAHSumm.set(UAHsumm);
 	}
+
+	@Override
+	public String toString() {
+		return super.toString() + " TableRow [index=" + index + ", workedDays="
+				+ workedDays + ", EURSumm=" + EURSumm + ", UAHSumm=" + UAHSumm
+				+ "]";
+	}
 }
