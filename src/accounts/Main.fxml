@@ -61,12 +61,12 @@
       				<Label text="Робочих днів:" />
       				<Label fx:id="lblWorkingDays" text="0" />
       				<Button fx:id="btnGetRate" mnemonicParsing="false" text="Поточний курс:" />
-      				<TextField fx:id="txtRate" prefHeight="25.0" prefWidth="79.0" text="0.0" />
+      				<TextField fx:id="rate" prefHeight="25.0" prefWidth="79.0" text="0.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="180.0" spacing="7.0" AnchorPane.rightAnchor="7.0">
                <children>
-      				<Button fx:id="btnPrint" mnemonicParsing="false" text="Друк" />
+      				<Button fx:id="print" mnemonicParsing="false" text="Друк" />
       				<ComboBox fx:id="cmbPrintFormat" prefHeight="25.0" prefWidth="100.0" promptText="Формат">
       					<items>
       						<FXCollections fx:factory="observableArrayList">

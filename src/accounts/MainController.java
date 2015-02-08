@@ -4,24 +4,33 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import accounts.model.Account;
 
 public class MainController implements Initializable {
+	@FXML
+	private TextField rate;
+	@FXML
+	private Button print;
+
 	@FXML
 	private TableView<Account> table;
 
@@ -49,6 +58,35 @@ public class MainController implements Initializable {
 		setCellsFactory();
 		loadFromFile("Employees.txt", 20, 10.0);
 		table.setItems(data);
+		rate.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				calculateSalary();
+			}
+		});
+		print.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				setWorkingDay();
+			}
+		});
+	}
+
+	private void calculateSalary() {
+		double rate = Double.parseDouble(this.rate.getText());
+		for (Iterator<Account> iterator = data.iterator(); iterator.hasNext();) {
+			Account account = iterator.next();
+			account.calculateSalary(rate);
+		}
+	}
+
+	private void setWorkingDay() {
+		int working = 10;
+		double rate = Double.parseDouble(this.rate.getText());
+		for (Iterator<Account> iterator = data.iterator(); iterator.hasNext();) {
+			Account account = iterator.next();
+			account.setWorkingDay(working, rate);
+		}
 	}
 
 	private void setCellsFactory() {
@@ -69,8 +107,8 @@ public class MainController implements Initializable {
 
 			public void handle(CellEditEvent<Object, Integer> event) {
 				((Account) event.getTableView().getItems()
-						.get(event.getTablePosition().getRow())).ownProperty()
-						.set(event.getNewValue());
+						.get(event.getTablePosition().getRow())).setOwn(
+						event.getNewValue(), 10.0);
 			}
 		});
 
@@ -91,8 +129,8 @@ public class MainController implements Initializable {
 
 			public void handle(CellEditEvent<Object, Integer> event) {
 				((Account) event.getTableView().getItems()
-						.get(event.getTablePosition().getRow()))
-						.hospitalProperty().set(event.getNewValue());
+						.get(event.getTablePosition().getRow())).setHospital(
+						event.getNewValue(), 10.0);
 			}
 		});
 	}

@@ -59,6 +59,61 @@ public class Account {
 		return uah;
 	}
 
+	public void setOwn(int newOwn, double rate) {
+		if (newOwn >= 0) {
+			int free = worked.get() + own.get();
+			this.own.set(newOwn <= free ? newOwn : free);
+			worked.set(free - own.get());
+			calculateSalary(rate);
+		}
+	}
+
+	public int getWorking() {
+		return worked.get() + own.get() + hospital.get();
+	}
+
+	public void calculateSalary(double rate) {
+		int working = getWorking();
+		double salaryInEUR = getEUR(working, worked.get(), hospital.get(),
+				salary.get());
+		eur.set(salaryInEUR);
+		uah.set(salaryInEUR * rate);
+	}
+
+	public void setHospital(int newHospital, double rate) {
+		if (newHospital >= 0) {
+			int free = worked.get() + hospital.get();
+			this.hospital.set(newHospital <= free ? newHospital : free);
+			worked.set(free - hospital.get());
+			calculateSalary(rate);
+		}
+	}
+
+	public void setWorkingDay(int newWorking, double rate) {
+		if (newWorking > 0) {
+			int working = getWorking();
+			if (newWorking > working) {
+				worked.set(newWorking - own.get() - hospital.get());
+			} else if (newWorking < working) {
+				int diff = working - newWorking;
+				int min = Math.min(worked.get(), diff);
+				worked.set(worked.get() - min);
+				diff -= min;
+				if (min > 0) {
+					min = Math.min(own.get(), diff);
+					own.set(own.get() - min);
+					diff -= min;
+				}
+				if (min > 0) {
+					min = Math.min(hospital.get(), diff);
+					hospital.set(hospital.get() - min);
+					diff -= min;
+				}
+			}
+			calculateSalary(rate);
+		}
+	}
+
 	public static double getEUR(int working, int worked, int hospital,
 			double salary) {
 		double sd = salary / working;
