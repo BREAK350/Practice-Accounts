@@ -9,9 +9,13 @@ import javafx.collections.ObservableList;
 
 public class FileLoader implements AbstractLoader {
 	private String fileName;
+	private int working;
+	private double rate;
 
-	public FileLoader(String fileName) {
+	public FileLoader(String fileName, int working, double rate) {
 		this.fileName = fileName;
+		this.working = working;
+		this.rate = rate;
 	}
 
 	public ObservableList<Account> load() {
@@ -21,11 +25,18 @@ public class FileLoader implements AbstractLoader {
 			BufferedReader inputStream = new BufferedReader(
 					new java.io.FileReader(fileName));
 			String row;
-			Account ac;
+			int index = 1;
 			while ((row = inputStream.readLine()) != null) {
-				String[] data = row.split("\t");
-				ac = new Account(data[0], Integer.parseInt(data[1]),
-						Integer.parseInt(data[2]), Double.parseDouble(data[3]));
+				String[] spl = row.split("\t");
+				String name = spl[0];
+				int own = Integer.parseInt(spl[1]);
+				int hospital = Integer.parseInt(spl[2]);
+				int worked = working - own - hospital;
+				double salary = Double.parseDouble(spl[3]);
+				double eur = Account.getEUR(working, worked, hospital, salary);
+				double uah = eur * rate;
+				Account ac = new Account(index++, name, worked, own, hospital,
+						salary, eur, uah);
 				list.add(ac);
 			}
 		} catch (FileNotFoundException e) {

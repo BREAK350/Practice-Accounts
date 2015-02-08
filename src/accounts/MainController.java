@@ -3,7 +3,9 @@ package accounts;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
@@ -13,16 +15,32 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import accounts.model.Account;
 
 public class MainController implements Initializable {
@@ -30,6 +48,12 @@ public class MainController implements Initializable {
 	private TextField rate;
 	@FXML
 	private Button print;
+	@FXML
+	private Button months;
+	@FXML
+	private Button currRate;
+	@FXML
+	private Label working;
 
 	@FXML
 	private TableView<Account> table;
@@ -52,12 +76,73 @@ public class MainController implements Initializable {
 	private TableColumn<Account, Double> uah;
 
 	private ObservableList<Account> data = FXCollections.observableArrayList();
+	private int[] days = new int[12];
 
 	public void initialize(URL location, ResourceBundle resources) {
-		setCellsValueFactory();
-		setCellsFactory();
-		loadFromFile("Employees.txt", 20, 10.0);
+		setCellsValueFactorys();
+		setCellsFactorys();
+		setOnActions();
+		initRate();
+		loadFromFile("Employees.txt", 20, getRate());
+		loadDays("Months.txt");
+		initDays();
 		table.setItems(data);
+	}
+
+	private void initDays() {
+		int month = Calendar.getInstance().get(Calendar.MONTH);
+		setWorkingDay(days[month]);
+	}
+
+	private void initRate() {
+		double r = getRateFromWeb();
+		rate.setText(String.valueOf(r));
+	}
+
+	private double getRateFromWeb() {
+		String url = "http://bank-ua.com/export/currrate.xml";
+		double r = 0;
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db;
+		try {
+			db = dbf.newDocumentBuilder();
+			try {
+				Document doc = db.parse(new URL(url).openStream());
+				NodeList nodeList = doc.getChildNodes().item(0).getChildNodes();
+				int i = 0;
+				boolean eur = false;
+				while (r == 0 && i < nodeList.getLength()) {
+					Node node = nodeList.item(i);
+					NodeList itemList = node.getChildNodes();
+					int j = 0;
+					while (r == 0 && j < itemList.getLength()) {
+						Node itemNode = itemList.item(j);
+						if (itemNode.getNodeName().equals("char3")
+								&& itemNode.getTextContent() != null) {
+							eur = itemNode.getTextContent().equals("EUR");
+						}
+						if (eur && itemNode.getNodeName().equals("rate")
+								&& itemNode.getTextContent() != null) {
+							r = Double.parseDouble(itemNode.getTextContent());
+						}
+						++j;
+					}
+					++i;
+				}
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (SAXException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (ParserConfigurationException e1) {
+			e1.printStackTrace();
+		}
+		return r / 100;
+	}
+
+	private void setOnActions() {
 		rate.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
@@ -67,29 +152,65 @@ public class MainController implements Initializable {
 		print.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				setWorkingDay();
+				// setWorkingDay();
+			}
+		});
+		months.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				FXMLLoader loader = new FXMLLoader();
+				Stage stage = new Stage();
+				loader.setLocation(getClass().getResource("MonthDialog.fxml"));
+				Parent parent;
+				try {
+					parent = loader.load();
+					Scene scene = new Scene(parent);
+					stage.setScene(scene);
+					stage.initModality(Modality.APPLICATION_MODAL);
+					MonthDialogController controller = loader.getController();
+					controller.setMainController(MainController.this);
+					controller.setStage(stage);
+					stage.showAndWait();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		currRate.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				initRate();
+				calculateSalary();
 			}
 		});
 	}
 
+	public double getRate() {
+		return Double.parseDouble(this.rate.getText());
+	}
+
 	private void calculateSalary() {
-		double rate = Double.parseDouble(this.rate.getText());
+		double rate = getRate();
 		for (Iterator<Account> iterator = data.iterator(); iterator.hasNext();) {
 			Account account = iterator.next();
 			account.calculateSalary(rate);
 		}
 	}
 
-	private void setWorkingDay() {
-		int working = 10;
-		double rate = Double.parseDouble(this.rate.getText());
+	private void setWorkingDay(int working) {
+		double rate = getRate();
 		for (Iterator<Account> iterator = data.iterator(); iterator.hasNext();) {
 			Account account = iterator.next();
 			account.setWorkingDay(working, rate);
 		}
+		this.working.setText(String.valueOf(working));
 	}
 
-	private void setCellsFactory() {
+	public void setMonth(int month) {
+		setWorkingDay(days[month]);
+	}
+
+	private void setCellsFactorys() {
 		own.setCellFactory(TextFieldTableCell
 				.forTableColumn(new StringConverter<Integer>() {
 
@@ -108,7 +229,7 @@ public class MainController implements Initializable {
 			public void handle(CellEditEvent<Object, Integer> event) {
 				((Account) event.getTableView().getItems()
 						.get(event.getTablePosition().getRow())).setOwn(
-						event.getNewValue(), 10.0);
+						event.getNewValue(), getRate());
 			}
 		});
 
@@ -130,9 +251,26 @@ public class MainController implements Initializable {
 			public void handle(CellEditEvent<Object, Integer> event) {
 				((Account) event.getTableView().getItems()
 						.get(event.getTablePosition().getRow())).setHospital(
-						event.getNewValue(), 10.0);
+						event.getNewValue(), getRate());
 			}
 		});
+	}
+
+	private void loadDays(String fileName) {
+		try {
+			@SuppressWarnings("resource")
+			BufferedReader inputStream = new BufferedReader(
+					new java.io.FileReader(fileName));
+			String row;
+			int i = 0;
+			while ((row = inputStream.readLine()) != null) {
+				days[i++] = Integer.parseInt(row);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void loadFromFile(String fileName, int working, double rate) {
@@ -162,7 +300,7 @@ public class MainController implements Initializable {
 		}
 	}
 
-	private void setCellsValueFactory() {
+	private void setCellsValueFactorys() {
 		index.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Account, Integer>, ObservableValue<Integer>>() {
 
 			public ObservableValue<Integer> call(
