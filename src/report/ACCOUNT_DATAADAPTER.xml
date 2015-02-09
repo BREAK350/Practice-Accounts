@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dsDataAdapter class="net.sf.jasperreports.data.ds.DataSourceDataAdapterImpl"><name>AccountDataAdapter</name><factoryClass>report.AccountDataSource</factoryClass><methodToCall>getDataSource</methodToCall></dsDataAdapter>
