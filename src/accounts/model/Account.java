@@ -76,8 +76,8 @@ public class Account {
 		int working = getWorking();
 		double salaryInEUR = getEUR(working, worked.get(), hospital.get(),
 				salary.get());
-		eur.set(salaryInEUR);
-		uah.set(salaryInEUR * rate);
+		eur.set(round(salaryInEUR, 100));
+		uah.set(round(salaryInEUR * rate, 100));
 	}
 
 	public void setHospital(int newHospital, double rate) {
@@ -120,4 +120,7 @@ public class Account {
 		return worked * sd + hospital * sd / 2;
 	}
 
+	public static double round(double value, int dec) {
+		return (double) ((int) (value * dec)) / dec;
+	}
 }

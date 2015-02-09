@@ -41,6 +41,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import report.Report;
 import accounts.model.Account;
 
 public class MainController implements Initializable {
@@ -96,7 +97,7 @@ public class MainController implements Initializable {
 
 	private void initRate() {
 		double r = getRateFromWeb();
-		rate.setText(String.valueOf(r));
+		rate.setText(String.valueOf(round(r, 10000)));
 	}
 
 	private double getRateFromWeb() {
@@ -153,6 +154,8 @@ public class MainController implements Initializable {
 
 			public void handle(ActionEvent event) {
 				// setWorkingDay();
+				Report r = new Report();
+				r.print2(data);
 			}
 		});
 		months.setOnAction(new EventHandler<ActionEvent>() {
@@ -183,6 +186,10 @@ public class MainController implements Initializable {
 				calculateSalary();
 			}
 		});
+	}
+
+	private double round(double value, int dec) {
+		return (double) ((int) (value * dec)) / dec;
 	}
 
 	public double getRate() {
