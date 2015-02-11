@@ -1,29 +1,24 @@
 package report;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import javafx.collections.ObservableList;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
 import accounts.model.Account;
 
 public class Report {
-	public void print2(ObservableList<Account> data) {
-		URL url = getClass().getResource("report.jasper");
+	public void print(ObservableList<Account> data) {
 		String sourceFileName = "report.jasper";
 		String printFileName = null;
 
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		try {
 			JRDataSource dataSource = new AccountDataSource(data);
 			printFileName = JasperFillManager.fillReportToFile(sourceFileName,
@@ -36,36 +31,30 @@ public class Report {
 		}
 	}
 
-	public void print(ObservableList<Account> data) {
-		JasperPrint jasperPrint;
-		URL url = getClass().getResource("report.jrxml");
-		// create a map to pass parameters to the report
-		HashMap<String, Object> parameter = new HashMap<String, Object>();
-		// parameter.put("COMPANY_NR", companyID);
+	public void exportToXLS(ObservableList<Account> data, File file) {
+		String sourceFileName = "report.jasper";
+		String printFileName = null;
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		try {
-			// load the report from the reports plugin
-			InputStream inputStream = url.openConnection().getInputStream();
-			System.out.println("found jrxml file");
-			// compile the report
-			JasperReport report = JasperCompileManager
-					.compileReport(inputStream);
 			JRDataSource dataSource = new AccountDataSource(data);
-			// let Jasper Reports use our already defined SQL Connection
-			// JasperFillManager.fillReportToFile(url.getPath(),
-			// "C:\\Users\\Дмитро\\Desktop\\test.html", null, dataSource);
-			System.out.println("filled");
-			// don’t create a file but let jasper put the contents in an byte
-			// array
-			// JasperExportManager.exportReportToHtmlFile(jasperPrint,
-			// "C:\\Users\\Дмитро\\Desktop\\test.html");
-			// ByteArrayOutputStream ba = new ByteArrayOutputStream();
-			// JasperExportManager.exportReportToPdfStream(jasperPrint, ba);
-			// return the contents to the caller
-			// return ba.toByteArray();
-			System.out.println("exported");
+			printFileName = JasperFillManager.fillReportToFile(sourceFileName,
+					parameters, dataSource);
+			if (printFileName != null) {
+				JRXlsExporter exporter = new JRXlsExporter();
+
+				exporter.setParameter(JRExporterParameter.INPUT_FILE_NAME,
+						printFileName);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,
+						file.getAbsolutePath());
+
+				exporter.exportReport();
+			}
 		} catch (JRException e) {
-		} catch (MalformedURLException e) {
-		} catch (IOException e) {
+			e.printStackTrace();
 		}
+	}
+
+	public void exportToODT(ObservableList<Account> data, File file) {
+
 	}
 }

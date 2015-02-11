@@ -68,7 +68,7 @@
                <children>
       				<Button fx:id="print" mnemonicParsing="false" text="Друк" />
       				<Button fx:id="export" mnemonicParsing="false" text="Експорт в:" />
-      				<ComboBox fx:id="cmbPrintFormat" prefHeight="25.0" prefWidth="100.0" promptText="Формат">
+      				<ComboBox fx:id="exportFormat" prefHeight="25.0" prefWidth="100.0" promptText="Формат">
       					<items>
       						<FXCollections fx:factory="observableArrayList">
       							<String fx:value="odt" />

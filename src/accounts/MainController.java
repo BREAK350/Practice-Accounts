@@ -1,6 +1,7 @@
 package accounts;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -20,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -27,6 +29,7 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -45,16 +48,21 @@ import report.Report;
 import accounts.model.Account;
 
 public class MainController implements Initializable {
+	private Stage stage;
 	@FXML
 	private TextField rate;
 	@FXML
 	private Button print;
+	@FXML
+	private Button export;
 	@FXML
 	private Button months;
 	@FXML
 	private Button currRate;
 	@FXML
 	private Label working;
+	@FXML
+	private ComboBox<String> exportFormat;
 
 	@FXML
 	private TableView<Account> table;
@@ -88,6 +96,10 @@ public class MainController implements Initializable {
 		loadDays("Months.txt");
 		initDays();
 		table.setItems(data);
+	}
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
 	}
 
 	private void initDays() {
@@ -143,6 +155,10 @@ public class MainController implements Initializable {
 		return r / 100;
 	}
 
+	public String getExportType() {
+		return exportFormat.getSelectionModel().getSelectedItem();
+	}
+
 	private void setOnActions() {
 		rate.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -155,7 +171,26 @@ public class MainController implements Initializable {
 			public void handle(ActionEvent event) {
 				// setWorkingDay();
 				Report r = new Report();
-				r.print2(data);
+				r.print(data);
+			}
+		});
+		export.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				FileChooser fch = new FileChooser();
+				String type = getExportType();
+				if (type != null) {
+					File file = fch.showSaveDialog(stage);
+					if (file != null) {
+						Report r = new Report();
+						if (type.equals("xls")) {
+							r.exportToXLS(data, file);
+						} else if (type.equals("odt")) {
+							r.exportToODT(data, file);
+						}
+					}
+				}
 			}
 		});
 		months.setOnAction(new EventHandler<ActionEvent>() {

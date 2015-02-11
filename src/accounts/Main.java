@@ -17,6 +17,8 @@ public class Main extends Application {
 			scene.getStylesheets().add(
 					getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
+			MainController mainController = loader.getController();
+			mainController.setStage(primaryStage);
 			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
