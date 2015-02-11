@@ -60,12 +60,15 @@ public class Account {
 	}
 
 	public void setOwn(int newOwn, double rate) {
-		if (newOwn >= 0) {
-			int free = worked.get() + own.get();
-			this.own.set(newOwn <= free ? newOwn : free);
-			worked.set(free - own.get());
-			calculateSalary(rate);
+		int free = worked.get() + own.get();
+		if (newOwn < 0) {
+			newOwn = 0;
+			this.own.set(1);
+			this.own.set(0);
 		}
+		this.own.set(newOwn <= free ? newOwn : free);
+		worked.set(free - own.get());
+		calculateSalary(rate);
 	}
 
 	public int getWorking() {
@@ -81,12 +84,15 @@ public class Account {
 	}
 
 	public void setHospital(int newHospital, double rate) {
-		if (newHospital >= 0) {
-			int free = worked.get() + hospital.get();
-			this.hospital.set(newHospital <= free ? newHospital : free);
-			worked.set(free - hospital.get());
-			calculateSalary(rate);
+		int free = worked.get() + hospital.get();
+		if (newHospital < 0) {
+			newHospital = 0;
+			this.hospital.set(1);
+			this.hospital.set(0);
 		}
+		this.hospital.set(newHospital <= free ? newHospital : free);
+		worked.set(free - hospital.get());
+		calculateSalary(rate);
 	}
 
 	public void setWorkingDay(int newWorking, double rate) {
