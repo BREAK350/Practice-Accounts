@@ -178,9 +178,12 @@ public class MainController implements Initializable {
 
 			@Override
 			public void handle(ActionEvent event) {
-				FileChooser fch = new FileChooser();
 				String type = getExportType();
 				if (type != null) {
+					FileChooser fch = new FileChooser();
+					FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+							type.toUpperCase() + " files", "*." + type);
+					fch.getExtensionFilters().add(extFilter);
 					File file = fch.showSaveDialog(stage);
 					if (file != null) {
 						Report r = new Report();
