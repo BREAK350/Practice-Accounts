@@ -4,3 +4,4 @@ commons-digester-2.1
 jasperreports-4.1.1
 org.apache.commons.collections
 org-apache-commons-logging
+poi-3.9
