@@ -75,6 +75,9 @@
       							<String fx:value="xls" />
       						</FXCollections>
       					</items>
+      					<value>
+        					<String fx:value="xls" />
+    					</value>
       				</ComboBox>
                </children>
             </HBox>

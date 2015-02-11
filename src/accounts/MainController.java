@@ -103,7 +103,9 @@ public class MainController implements Initializable {
 	}
 
 	private void initDays() {
-		int month = Calendar.getInstance().get(Calendar.MONTH);
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -1);
+		int month = cal.get(Calendar.MONTH);
 		setWorkingDay(days[month]);
 	}
 
