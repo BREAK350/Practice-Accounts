@@ -64,9 +64,10 @@
       				<TextField fx:id="rate" prefHeight="25.0" prefWidth="79.0" text="0.0" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="180.0" spacing="7.0" AnchorPane.rightAnchor="7.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="240.0" spacing="7.0" AnchorPane.rightAnchor="7.0">
                <children>
       				<Button fx:id="print" mnemonicParsing="false" text="Друк" />
+      				<Button fx:id="export" mnemonicParsing="false" text="Експорт в:" />
       				<ComboBox fx:id="cmbPrintFormat" prefHeight="25.0" prefWidth="100.0" promptText="Формат">
       					<items>
       						<FXCollections fx:factory="observableArrayList">
