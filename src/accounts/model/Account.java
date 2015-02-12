@@ -27,6 +27,20 @@ public class Account {
 		this.uah = new SimpleDoubleProperty(uah);
 	}
 
+	public Account(int index, String name, int own, int hospital,
+			double salary, int working, double rate) {
+		super();
+		this.index = new SimpleIntegerProperty(index);
+		this.name = new SimpleStringProperty(name);
+		this.worked = new SimpleIntegerProperty(working - own - hospital);
+		this.own = new SimpleIntegerProperty(own);
+		this.hospital = new SimpleIntegerProperty(hospital);
+		this.salary = new SimpleDoubleProperty(salary);
+		this.eur = new SimpleDoubleProperty(getEUR(working, worked.get(),
+				hospital, salary));
+		this.uah = new SimpleDoubleProperty(eur.get() * rate);
+	}
+
 	public SimpleIntegerProperty indexProperty() {
 		return index;
 	}

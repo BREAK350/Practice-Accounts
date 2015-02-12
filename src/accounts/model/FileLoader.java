@@ -31,12 +31,9 @@ public class FileLoader implements AbstractLoader {
 				String name = spl[0];
 				int own = Integer.parseInt(spl[1]);
 				int hospital = Integer.parseInt(spl[2]);
-				int worked = working - own - hospital;
 				double salary = Double.parseDouble(spl[3]);
-				double eur = Account.getEUR(working, worked, hospital, salary);
-				double uah = eur * rate;
-				Account ac = new Account(index++, name, worked, own, hospital,
-						salary, eur, uah);
+				Account ac = new Account(index++, name, own, hospital, salary,
+						working, rate);
 				list.add(ac);
 			}
 		} catch (FileNotFoundException e) {
