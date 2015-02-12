@@ -11,7 +11,7 @@
 <?import fxmltableview.*?>
 <?import accounts.model.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="accounts.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="break350.accounts.controllers.MainController">
    <center>
 				<TableView fx:id="table" editable="true" prefHeight="352.0" prefWidth="885.0" BorderPane.alignment="CENTER">
 					<columns>

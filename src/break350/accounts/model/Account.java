@@ -1,4 +1,4 @@
-package accounts.model;
+package break350.accounts.model;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;

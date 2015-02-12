@@ -1,9 +1,10 @@
-package report;
+package break350.accounts.report;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import break350.accounts.model.Account;
 import javafx.collections.ObservableList;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -12,11 +13,10 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
-import accounts.model.Account;
 
 public class Report {
 	public void print(ObservableList<Account> data) {
-		String sourceFileName = "report.jasper";
+		String sourceFileName = "report/report.jasper";
 		String printFileName = null;
 
 		Map<String, Object> parameters = new HashMap<String, Object>();

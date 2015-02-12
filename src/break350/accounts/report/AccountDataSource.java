@@ -1,8 +1,8 @@
-package report;
+package break350.accounts.report;
 
+import break350.accounts.model.Account;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import accounts.model.Account;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;

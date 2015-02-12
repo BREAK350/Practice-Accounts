@@ -1,4 +1,4 @@
-package accounts;
+package break350.accounts.controllers;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -44,8 +44,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import report.Report;
-import accounts.model.Account;
+import break350.accounts.model.Account;
+import break350.accounts.report.Report;
 
 public class MainController implements Initializable {
 	private Stage stage;
@@ -203,19 +203,26 @@ public class MainController implements Initializable {
 			public void handle(ActionEvent event) {
 				FXMLLoader loader = new FXMLLoader();
 				Stage stage = new Stage();
-				loader.setLocation(getClass().getResource("MonthDialog.fxml"));
-				Parent parent;
+				File fileMonth = new File("design/fxml/MonthDialog.fxml");
 				try {
-					parent = loader.load();
-					Scene scene = new Scene(parent);
-					stage.setScene(scene);
-					stage.initModality(Modality.APPLICATION_MODAL);
-					MonthDialogController controller = loader.getController();
-					controller.setMainController(MainController.this);
-					controller.setStage(stage);
-					stage.showAndWait();
-				} catch (IOException e) {
-					e.printStackTrace();
+					loader.setLocation(fileMonth.toURI().toURL());
+					Parent parent;
+					try {
+						parent = loader.load();
+						Scene scene = new Scene(parent);
+						stage.setScene(scene);
+						stage.initModality(Modality.APPLICATION_MODAL);
+						MonthDialogController controller = loader
+								.getController();
+						controller.setMainController(MainController.this);
+						controller.setStage(stage);
+						stage.showAndWait();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} catch (MalformedURLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.collections.FXCollections ?>
+
+<GridPane hgap="14.0" maxHeight="+Infinity" maxWidth="+Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" vgap="20.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="break350.accounts.controllers.MonthDialogController">
+	<children>
+		<VBox alignment="CENTER" maxHeight="+Infinity" maxWidth="+Infinity"
+			minHeight="-Infinity" prefWidth="400.0" spacing="7.0"
+			GridPane.rowIndex="0">
+			<children>
+				<Label fx:id="messageLabel" text="Виберіть місяць"
+					textAlignment="LEFT" wrapText="true">
+					<font>
+						<Font name="System Bold" size="13.0" />
+					</font>
+				</Label>
+				<ComboBox fx:id="comboBoxMonth" prefWidth="150.0">
+					<items>
+						<FXCollections fx:factory="observableArrayList">
+							<String fx:value="Січень" />
+							<String fx:value="Лютий" />
+							<String fx:value="Березень" />
+							<String fx:value="Квітень" />
+							<String fx:value="Травень" />
+							<String fx:value="Червень" />
+							<String fx:value="Липень" />
+							<String fx:value="Серпень" />
+							<String fx:value="Вересень" />
+							<String fx:value="Жовтень" />
+							<String fx:value="Листопад" />
+							<String fx:value="Грудень" />
+						</FXCollections>
+					</items>
+				</ComboBox>
+			</children>
+		</VBox>
+		<HBox maxHeight="-Infinity" maxWidth="+Infinity" minHeight="-Infinity"
+			minWidth="-Infinity" GridPane.rowIndex="1">
+			<children>
+				<HBox fx:id="actionParent" alignment="CENTER">
+					<HBox.margin>
+						<Insets />
+					</HBox.margin>
+				</HBox>
+				<Pane maxWidth="+Infinity" HBox.hgrow="ALWAYS" />
+				<Button fx:id="cancelButton" cancelButton="true" minWidth="80.0"
+					mnemonicParsing="false" onAction="#onClickCancelButton" text="Cancel"
+					HBox.hgrow="NEVER">
+					<HBox.margin>
+						<Insets />
+					</HBox.margin>
+				</Button>
+				<HBox fx:id="okParent" alignment="CENTER">
+					<children>
+						<Button fx:id="okButton" minWidth="80.0" mnemonicParsing="false"
+							onAction="#onClickOkButton" text="Ok" HBox.hgrow="NEVER">
+							<HBox.margin>
+								<Insets left="14.0" />
+							</HBox.margin>
+						</Button>
+					</children>
+				</HBox>
+			</children>
+		</HBox>
+	</children>
+	<columnConstraints>
+		<ColumnConstraints halignment="CENTER" hgrow="ALWAYS"
+			maxWidth="+Infinity" minWidth="-Infinity" />
+	</columnConstraints>
+	<padding>
+		<Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+	</padding>
+	<rowConstraints>
+		<RowConstraints maxHeight="+Infinity" minHeight="-Infinity"
+			valignment="CENTER" vgrow="ALWAYS" />
+		<RowConstraints maxHeight="-Infinity" minHeight="-Infinity"
+			vgrow="NEVER" />
+	</rowConstraints>
+</GridPane>
