@@ -75,7 +75,7 @@ public class Account {
 
 	public void setOwn(int newOwn, double rate) {
 		int free = worked.get() + own.get();
-		if (newOwn < 0) {
+		if (newOwn < 0 || free == 0) {
 			newOwn = 0;
 			this.own.set(1);
 			this.own.set(0);
@@ -99,7 +99,7 @@ public class Account {
 
 	public void setHospital(int newHospital, double rate) {
 		int free = worked.get() + hospital.get();
-		if (newHospital < 0) {
+		if (newHospital < 0 || free == 0) {
 			newHospital = 0;
 			this.hospital.set(1);
 			this.hospital.set(0);

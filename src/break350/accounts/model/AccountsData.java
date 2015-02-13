@@ -24,6 +24,7 @@ public class AccountsData {
 	private double rate;
 	private ObservableList<Account> data = FXCollections.observableArrayList();
 	private int[] days = new int[12];
+	private int month;
 
 	public void initDays() {
 		Calendar cal = Calendar.getInstance();
@@ -32,20 +33,32 @@ public class AccountsData {
 		setWorkingDay(days[month]);
 	}
 
-	public void setWorkingDay(int working) {
+	private void setWorkingDay(int working) {
 		double rate = getRate();
 		for (Iterator<Account> iterator = data.iterator(); iterator.hasNext();) {
 			Account account = iterator.next();
 			account.setWorkingDay(working, rate);
 		}
-		// this.working.setText(String.valueOf(working));
 	}
 
 	public void setMonth(int month) {
+		this.month = month;
 		setWorkingDay(days[month]);
 	}
 
-	private void loadDays(String fileName) {
+	public void loadAccounts(AbstractAccountLoader abstractAccountLoader) {
+		data = abstractAccountLoader.load();
+	}
+
+	public int getWorkingDay() {
+		return days[month];
+	}
+
+	public ObservableList<Account> getData() {
+		return data;
+	}
+
+	public void loadDays(String fileName) {
 		try {
 			@SuppressWarnings("resource")
 			BufferedReader inputStream = new BufferedReader(
@@ -62,35 +75,13 @@ public class AccountsData {
 		}
 	}
 
-	private void loadFromFile(String fileName, int working, double rate) {
-		try {
-			@SuppressWarnings("resource")
-			BufferedReader inputStream = new BufferedReader(
-					new java.io.FileReader(fileName));
-			String row;
-			int index = 1;
-			while ((row = inputStream.readLine()) != null) {
-				String[] spl = row.split("\t");
-				String name = spl[0];
-				int own = Integer.parseInt(spl[1]);
-				int hospital = Integer.parseInt(spl[2]);
-				int worked = working - own - hospital;
-				double salary = Double.parseDouble(spl[3]);
-				double eur = Account.getEUR(working, worked, hospital, salary);
-				double uah = eur * rate;
-				Account ac = new Account(index++, name, worked, own, hospital,
-						salary, eur, uah);
-				data.add(ac);
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public double getRate() {
 		return rate;
+	}
+
+	public void setRate(double rate) {
+		this.rate = rate;
+		calculateSalary();
 	}
 
 	public void calculateSalary() {
@@ -101,7 +92,7 @@ public class AccountsData {
 		}
 	}
 
-	public double getRateFromWeb() {
+	public void loadRateFromWeb() {
 		String url = "http://bank-ua.com/export/currrate.xml";
 		double r = 0;
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -141,6 +132,6 @@ public class AccountsData {
 		} catch (ParserConfigurationException e1) {
 			e1.printStackTrace();
 		}
-		return r / 100;
+		rate = Account.round(r / 100, 10000);
 	}
 }

@@ -1,18 +1,12 @@
 package break350.accounts.controllers;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -34,17 +28,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 import break350.accounts.model.Account;
+import break350.accounts.model.AccountsData;
+import break350.accounts.model.FileAccountLoader;
 import break350.accounts.report.Report;
 
 public class MainController implements Initializable {
@@ -84,77 +70,38 @@ public class MainController implements Initializable {
 	@FXML
 	private TableColumn<Account, Double> uah;
 
-	private ObservableList<Account> data = FXCollections.observableArrayList();
-	private int[] days = new int[12];
+	private AccountsData accountsData = new AccountsData();
 
 	public void initialize(URL location, ResourceBundle resources) {
 		setCellsValueFactorys();
 		setCellsFactorys();
 		setOnActions();
 		initRate();
-		loadFromFile("Employees.txt", 20, getRate());
-		loadDays("Months.txt");
-		initDays();
-		table.setItems(data);
+		FileAccountLoader loader = new FileAccountLoader("Employees.txt", 20,
+				getRate());
+		accountsData.loadAccounts(loader);
+		accountsData.loadDays("Months.txt");
+		accountsData.initDays();
+		working.setText(String.valueOf(accountsData.getWorkingDay()));
+		table.setItems(accountsData.getData());
+	}
+
+	public void setMonth(int month) {
+		accountsData.setMonth(month);
+		working.setText(String.valueOf(accountsData.getWorkingDay()));
+	}
+
+	public AccountsData getAccountsData() {
+		return accountsData;
 	}
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
 	}
 
-	private void initDays() {
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MONTH, -1);
-		int month = cal.get(Calendar.MONTH);
-		setWorkingDay(days[month]);
-	}
-
 	private void initRate() {
-		double r = getRateFromWeb();
-		rate.setText(String.valueOf(round(r, 10000)));
-	}
-
-	private double getRateFromWeb() {
-		String url = "http://bank-ua.com/export/currrate.xml";
-		double r = 0;
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db;
-		try {
-			db = dbf.newDocumentBuilder();
-			try {
-				Document doc = db.parse(new URL(url).openStream());
-				NodeList nodeList = doc.getChildNodes().item(0).getChildNodes();
-				int i = 0;
-				boolean eur = false;
-				while (r == 0 && i < nodeList.getLength()) {
-					Node node = nodeList.item(i);
-					NodeList itemList = node.getChildNodes();
-					int j = 0;
-					while (r == 0 && j < itemList.getLength()) {
-						Node itemNode = itemList.item(j);
-						if (itemNode.getNodeName().equals("char3")
-								&& itemNode.getTextContent() != null) {
-							eur = itemNode.getTextContent().equals("EUR");
-						}
-						if (eur && itemNode.getNodeName().equals("rate")
-								&& itemNode.getTextContent() != null) {
-							r = Double.parseDouble(itemNode.getTextContent());
-						}
-						++j;
-					}
-					++i;
-				}
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			} catch (SAXException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} catch (ParserConfigurationException e1) {
-			e1.printStackTrace();
-		}
-		return r / 100;
+		accountsData.loadRateFromWeb();
+		rate.setText(String.valueOf(accountsData.getRate()));
 	}
 
 	public String getExportType() {
@@ -165,15 +112,25 @@ public class MainController implements Initializable {
 		rate.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				calculateSalary();
+				double rate = -1;
+				try {
+					rate = getRate();
+				} catch (NumberFormatException e) {
+
+				}
+				if (rate <= 0) {
+					accountsData.loadRateFromWeb();
+					rate = accountsData.getRate();
+					MainController.this.rate.setText(String.valueOf(rate));
+				}
+				accountsData.setRate(rate);
 			}
 		});
 		print.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				// setWorkingDay();
 				Report r = new Report();
-				r.print(data);
+				r.print(accountsData.getData());
 			}
 		});
 		export.setOnAction(new EventHandler<ActionEvent>() {
@@ -190,9 +147,9 @@ public class MainController implements Initializable {
 					if (file != null) {
 						Report r = new Report();
 						if (type.equals("xls")) {
-							r.exportToXLS(data, file);
+							r.exportToXLS(accountsData.getData(), file);
 						} else if (type.equals("odt")) {
-							r.exportToODT(data, file);
+							r.exportToODT(accountsData.getData(), file);
 						}
 					}
 				}
@@ -221,7 +178,6 @@ public class MainController implements Initializable {
 						e.printStackTrace();
 					}
 				} catch (MalformedURLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -230,38 +186,13 @@ public class MainController implements Initializable {
 
 			public void handle(ActionEvent event) {
 				initRate();
-				calculateSalary();
+				accountsData.calculateSalary();
 			}
 		});
 	}
 
-	private double round(double value, int dec) {
-		return (double) ((int) (value * dec)) / dec;
-	}
-
 	public double getRate() {
 		return Double.parseDouble(this.rate.getText());
-	}
-
-	private void calculateSalary() {
-		double rate = getRate();
-		for (Iterator<Account> iterator = data.iterator(); iterator.hasNext();) {
-			Account account = iterator.next();
-			account.calculateSalary(rate);
-		}
-	}
-
-	private void setWorkingDay(int working) {
-		double rate = getRate();
-		for (Iterator<Account> iterator = data.iterator(); iterator.hasNext();) {
-			Account account = iterator.next();
-			account.setWorkingDay(working, rate);
-		}
-		this.working.setText(String.valueOf(working));
-	}
-
-	public void setMonth(int month) {
-		setWorkingDay(days[month]);
 	}
 
 	private void setCellsFactorys() {
@@ -308,50 +239,6 @@ public class MainController implements Initializable {
 						event.getNewValue(), getRate());
 			}
 		});
-	}
-
-	private void loadDays(String fileName) {
-		try {
-			@SuppressWarnings("resource")
-			BufferedReader inputStream = new BufferedReader(
-					new java.io.FileReader(fileName));
-			String row;
-			int i = 0;
-			while ((row = inputStream.readLine()) != null) {
-				days[i++] = Integer.parseInt(row);
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void loadFromFile(String fileName, int working, double rate) {
-		try {
-			@SuppressWarnings("resource")
-			BufferedReader inputStream = new BufferedReader(
-					new java.io.FileReader(fileName));
-			String row;
-			int index = 1;
-			while ((row = inputStream.readLine()) != null) {
-				String[] spl = row.split("\t");
-				String name = spl[0];
-				int own = Integer.parseInt(spl[1]);
-				int hospital = Integer.parseInt(spl[2]);
-				int worked = working - own - hospital;
-				double salary = Double.parseDouble(spl[3]);
-				double eur = Account.getEUR(working, worked, hospital, salary);
-				double uah = eur * rate;
-				Account ac = new Account(index++, name, worked, own, hospital,
-						salary, eur, uah);
-				data.add(ac);
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	private void setCellsValueFactorys() {
