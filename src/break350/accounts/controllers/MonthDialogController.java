@@ -1,6 +1,6 @@
 package break350.accounts.controllers;
 
-import break350.accounts.days.Days;
+import break350.accounts.model.Days;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;

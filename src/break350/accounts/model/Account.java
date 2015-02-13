@@ -3,7 +3,6 @@ package break350.accounts.model;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import break350.accounts.rate.Rate;
 import break350.accounts.utils.Util;
 
 public class Account {

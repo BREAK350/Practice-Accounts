@@ -31,11 +31,11 @@ import javafx.util.converter.IntegerStringConverter;
 import break350.accounts.Configs;
 import break350.accounts.dao.AccountDao;
 import break350.accounts.dao.AccountDaoImpl;
-import break350.accounts.days.Days;
-import break350.accounts.days.Daysable;
 import break350.accounts.model.Account;
-import break350.accounts.rate.Rate;
-import break350.accounts.rate.Rateable;
+import break350.accounts.model.Days;
+import break350.accounts.model.Daysable;
+import break350.accounts.model.Rate;
+import break350.accounts.model.Rateable;
 import break350.accounts.report.Report;
 
 public class MainController implements Initializable, Rateable, Daysable {

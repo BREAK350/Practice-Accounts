@@ -1,4 +1,4 @@
-package break350.accounts.days;
+package break350.accounts.model;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

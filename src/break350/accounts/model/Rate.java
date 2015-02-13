@@ -1,4 +1,4 @@
-package break350.accounts.rate;
+package break350.accounts.model;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
