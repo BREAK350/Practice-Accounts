@@ -7,7 +7,7 @@ import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class FileAccountLoader implements AbstractAccountLoader {
+public class FileAccountLoader implements AccountLoader {
 	private String fileName;
 	private int working;
 	private double rate;

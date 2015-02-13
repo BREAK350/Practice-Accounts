@@ -46,7 +46,7 @@ public class AccountsData {
 		setWorkingDay(days[month]);
 	}
 
-	public void loadAccounts(AbstractAccountLoader abstractAccountLoader) {
+	public void loadAccounts(AccountLoader abstractAccountLoader) {
 		data = abstractAccountLoader.load();
 	}
 
