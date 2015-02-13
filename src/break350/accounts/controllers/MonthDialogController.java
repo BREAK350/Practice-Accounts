@@ -1,5 +1,6 @@
 package break350.accounts.controllers;
 
+import break350.accounts.days.Days;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -14,14 +15,9 @@ public class MonthDialogController {
 	private Button cancelButton;
 
 	private Stage stage;
-	private MainController mainController;
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
-	}
-
-	public void setMainController(MainController mainController) {
-		this.mainController = mainController;
 	}
 
 	@FXML
@@ -31,10 +27,8 @@ public class MonthDialogController {
 
 	@FXML
 	public void onClickOkButton() {
-		int index = comboBoxMonth.getSelectionModel().getSelectedIndex();
-		if (index >= 0 && index < 12) {
-			mainController.setMonth(index);
-		}
+		int month = comboBoxMonth.getSelectionModel().getSelectedIndex();
+		Days.setMonth(month);
 		stage.close();
 	}
 }

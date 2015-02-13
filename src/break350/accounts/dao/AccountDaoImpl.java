@@ -19,15 +19,18 @@ public class AccountDaoImpl implements AccountDao {
 	}
 
 	@Override
-	public void setNewWorking(int working) {
-
-	}
-
-	@Override
 	public void setRate(double newRate) {
 		for (Iterator<Account> iterator = data.iterator(); iterator.hasNext();) {
 			Account account = iterator.next();
-			account.calculateSalary(newRate);
+			account.calculateSalary();
+		}
+	}
+
+	@Override
+	public void setWorkingDays(int workingDays) {
+		for (Iterator<Account> iterator = data.iterator(); iterator.hasNext();) {
+			Account account = iterator.next();
+			account.setWorkingDay(workingDays);
 		}
 	}
 }

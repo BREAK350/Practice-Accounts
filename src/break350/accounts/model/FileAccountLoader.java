@@ -4,16 +4,15 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import break350.accounts.days.Days;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class FileAccountLoader implements AccountLoader {
 	private String fileName;
-	private int working;
 
-	public FileAccountLoader(String fileName, int working) {
+	public FileAccountLoader(String fileName) {
 		this.fileName = fileName;
-		this.working = working;
 	}
 
 	public ObservableList<Account> load() {
@@ -31,7 +30,7 @@ public class FileAccountLoader implements AccountLoader {
 				int hospital = Integer.parseInt(spl[2]);
 				double salary = Double.parseDouble(spl[3]);
 				Account ac = new Account(index++, name, own, hospital, salary,
-						working);
+						Days.getWorkingDay());
 				list.add(ac);
 			}
 		} catch (FileNotFoundException e) {

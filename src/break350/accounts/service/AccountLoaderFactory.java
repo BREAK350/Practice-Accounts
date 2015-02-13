@@ -5,7 +5,6 @@ import break350.accounts.model.FileAccountLoader;
 
 public class AccountLoaderFactory {
 	public static AccountLoader getAccountLoader() {
-		// return new FileAccountLoader(fileName, working, rate);
-		return null;
+		return new FileAccountLoader("Employees.txt");
 	}
 }

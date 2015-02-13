@@ -31,14 +31,14 @@ import javafx.util.converter.IntegerStringConverter;
 import break350.accounts.Configs;
 import break350.accounts.dao.AccountDao;
 import break350.accounts.dao.AccountDaoImpl;
+import break350.accounts.days.Days;
+import break350.accounts.days.Daysable;
 import break350.accounts.model.Account;
-import break350.accounts.model.AccountsData;
-import break350.accounts.model.FileAccountLoader;
 import break350.accounts.rate.Rate;
 import break350.accounts.rate.Rateable;
 import break350.accounts.report.Report;
 
-public class MainController implements Initializable, Rateable {
+public class MainController implements Initializable, Rateable, Daysable {
 	private Stage stage;
 	@FXML
 	private TextField rate;
@@ -75,40 +75,27 @@ public class MainController implements Initializable, Rateable {
 	@FXML
 	private TableColumn<Account, Double> uah;
 
-	private AccountsData accountsData = new AccountsData();
-	private AccountDao accountDao = new AccountDaoImpl();
+	private AccountDao accountDao;
 
 	public void initialize(URL location, ResourceBundle resources) {
 		setCellsValueFactorys();
 		setCellsFactorys();
 		setOnActions();
-		initRate();
-		FileAccountLoader loader = new FileAccountLoader("Employees.txt", 20);
-		accountsData.loadAccounts(loader);
-		accountsData.loadDays("Months.txt");
-		accountsData.initDays();
-		working.setText(String.valueOf(accountsData.getWorkingDay()));
-		table.setItems(accountsData.getData());
-		Rate.addRateable(this);
-		Rate.addRateable(accountDao);
-	}
 
-	public void setMonth(int month) {
-		accountsData.setMonth(month);
-		working.setText(String.valueOf(accountsData.getWorkingDay()));
-	}
+		accountDao = new AccountDaoImpl();
 
-	public AccountsData getAccountsData() {
-		return accountsData;
+		Rate.addAllRateable(this, accountDao);
+		Rate.loadFromWeb();
+
+		Days.addAllDaysable(this, accountDao);
+		Days.loadDays();
+		Days.initPastMonth();
+
+		table.setItems(accountDao.getAllAccounts());
 	}
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
-	}
-
-	private void initRate() {
-		accountsData.loadRateFromWeb();
-		rate.setText(String.valueOf(accountsData.getRate()));
 	}
 
 	public String getExportType() {
@@ -127,7 +114,7 @@ public class MainController implements Initializable, Rateable {
 
 			public void handle(ActionEvent event) {
 				Report r = new Report();
-				r.print(accountsData.getData());
+				r.print(accountDao.getAllAccounts());
 			}
 		});
 		export.setOnAction(new EventHandler<ActionEvent>() {
@@ -144,9 +131,9 @@ public class MainController implements Initializable, Rateable {
 					if (file != null) {
 						Report r = new Report();
 						if (type.equals("xls")) {
-							r.exportToXLS(accountsData.getData(), file);
+							r.exportToXLS(accountDao.getAllAccounts(), file);
 						} else if (type.equals("odt")) {
-							r.exportToODT(accountsData.getData(), file);
+							r.exportToODT(accountDao.getAllAccounts(), file);
 						}
 					}
 				}
@@ -169,7 +156,6 @@ public class MainController implements Initializable, Rateable {
 						stage.initModality(Modality.APPLICATION_MODAL);
 						MonthDialogController controller = loader
 								.getController();
-						controller.setMainController(MainController.this);
 						controller.setStage(stage);
 						stage.showAndWait();
 					} catch (IOException e) {
@@ -183,8 +169,7 @@ public class MainController implements Initializable, Rateable {
 		currRate.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				initRate();
-				accountsData.calculateSalary();
+				Rate.loadFromWeb();
 			}
 		});
 	}
@@ -293,6 +278,11 @@ public class MainController implements Initializable, Rateable {
 	@Override
 	public void setRate(double newRate) {
 		rate.setText(String.valueOf(newRate));
+	}
+
+	@Override
+	public void setWorkingDays(int workingDays) {
+		working.setText(String.valueOf(workingDays));
 	}
 
 }

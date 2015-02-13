@@ -84,19 +84,19 @@ public class Account {
 		}
 		this.own.set(newOwn <= free ? newOwn : free);
 		worked.set(free - own.get());
-		calculateSalary(Rate.getRate());
+		calculateSalary();
 	}
 
 	public int getWorking() {
 		return worked.get() + own.get() + hospital.get();
 	}
 
-	public void calculateSalary(double rate) {
+	public void calculateSalary() {
 		int working = getWorking();
 		double salaryInEUR = getEUR(working, worked.get(), hospital.get(),
 				salary.get());
 		eur.set(Util.round(salaryInEUR, 100));
-		uah.set(Util.round(salaryInEUR * rate, 100));
+		uah.set(Util.round(salaryInEUR * Rate.getRate(), 100));
 	}
 
 	public void setHospital(int newHospital) {
@@ -108,10 +108,10 @@ public class Account {
 		}
 		this.hospital.set(newHospital <= free ? newHospital : free);
 		worked.set(free - hospital.get());
-		calculateSalary(Rate.getRate());
+		calculateSalary();
 	}
 
-	public void setWorkingDay(int newWorking, double rate) {
+	public void setWorkingDay(int newWorking) {
 		if (newWorking > 0) {
 			int working = getWorking();
 			if (newWorking > working) {
@@ -132,7 +132,7 @@ public class Account {
 					diff -= min;
 				}
 			}
-			calculateSalary(rate);
+			calculateSalary();
 		}
 	}
 

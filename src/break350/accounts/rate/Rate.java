@@ -25,22 +25,22 @@ public class Rate {
 	private static String CURRENCY = EUR;
 
 	private static double rate = -1;
-	private static List<Rateable> list = new ArrayList<Rateable>();
+	private static List<Rateable> rateables = new ArrayList<Rateable>();
 
 	public static void addRateable(Rateable rateable) {
-		list.add(rateable);
+		rateables.add(rateable);
 	}
 
 	public static void removeRateable(Rateable rateable) {
-		list.remove(rateable);
+		rateables.remove(rateable);
 	}
 
 	public static void removeAllRateable() {
-		list.clear();
+		rateables.clear();
 	}
 
 	private static void rateChanged() {
-		for (Rateable rateable : list) {
+		for (Rateable rateable : rateables) {
 			rateable.setRate(getRate());
 		}
 	}
@@ -129,6 +129,12 @@ public class Rate {
 			loadFromWeb();
 		} else {
 			_setRate(newRate);
+		}
+	}
+
+	public static void addAllRateable(Rateable... rateables) {
+		for (int i = 0; i < rateables.length; i++) {
+			Rate.rateables.add(rateables[i]);
 		}
 	}
 }
