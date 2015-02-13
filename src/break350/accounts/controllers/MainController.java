@@ -27,7 +27,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
+import javafx.util.converter.IntegerStringConverter;
 import break350.accounts.model.Account;
 import break350.accounts.model.AccountsData;
 import break350.accounts.model.FileAccountLoader;
@@ -197,18 +197,7 @@ public class MainController implements Initializable {
 
 	private void setCellsFactorys() {
 		own.setCellFactory(TextFieldTableCell
-				.forTableColumn(new StringConverter<Integer>() {
-
-					@Override
-					public String toString(Integer object) {
-						return object.toString();
-					}
-
-					@Override
-					public Integer fromString(String string) {
-						return Integer.decode(string);
-					}
-				}));
+				.forTableColumn(new IntegerStringConverter()));
 		own.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Object, Integer>>() {
 
 			public void handle(CellEditEvent<Object, Integer> event) {
@@ -219,18 +208,7 @@ public class MainController implements Initializable {
 		});
 
 		hospital.setCellFactory(TextFieldTableCell
-				.forTableColumn(new StringConverter<Integer>() {
-
-					@Override
-					public String toString(Integer object) {
-						return object.toString();
-					}
-
-					@Override
-					public Integer fromString(String string) {
-						return Integer.decode(string);
-					}
-				}));
+				.forTableColumn(new IntegerStringConverter()));
 		hospital.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Object, Integer>>() {
 
 			public void handle(CellEditEvent<Object, Integer> event) {
