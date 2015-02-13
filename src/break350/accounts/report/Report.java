@@ -15,15 +15,16 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 
 public class Report {
+	public static String REPORT_FILE_NAME = "report/report.jasper";
+
 	public void print(ObservableList<Account> data) {
-		String sourceFileName = "report/report.jasper";
 		String printFileName = null;
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		try {
 			JRDataSource dataSource = new AccountDataSource(data);
-			printFileName = JasperFillManager.fillReportToFile(sourceFileName,
-					parameters, dataSource);
+			printFileName = JasperFillManager.fillReportToFile(
+					REPORT_FILE_NAME, parameters, dataSource);
 			if (printFileName != null) {
 				JasperPrintManager.printReport(printFileName, true);
 			}
@@ -33,13 +34,12 @@ public class Report {
 	}
 
 	public void exportToXLS(ObservableList<Account> data, File file) {
-		String sourceFileName = "report.jasper";
 		String printFileName = null;
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		try {
 			JRDataSource dataSource = new AccountDataSource(data);
-			printFileName = JasperFillManager.fillReportToFile(sourceFileName,
-					parameters, dataSource);
+			printFileName = JasperFillManager.fillReportToFile(
+					REPORT_FILE_NAME, parameters, dataSource);
 			if (printFileName != null) {
 				JRXlsExporter exporter = new JRXlsExporter();
 
@@ -56,14 +56,13 @@ public class Report {
 	}
 
 	public void exportToODT(ObservableList<Account> data, File file) {
-		String sourceFileName = "report.jasper";
 		String printFileName = null;
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		try {
 			JRDataSource dataSource = new AccountDataSource(data);
 			JROdtExporter docxExporter = new JROdtExporter();
-			printFileName = JasperFillManager.fillReportToFile(sourceFileName,
-					parameters, dataSource);
+			printFileName = JasperFillManager.fillReportToFile(
+					REPORT_FILE_NAME, parameters, dataSource);
 			if (printFileName != null) {
 				docxExporter.setParameter(JRExporterParameter.INPUT_FILE_NAME,
 						printFileName);
