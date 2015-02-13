@@ -8,6 +8,9 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.Iterator;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,8 +20,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import break350.accounts.utils.Util;
 
 public class AccountsData {
 	private double rate;
@@ -132,6 +134,6 @@ public class AccountsData {
 		} catch (ParserConfigurationException e1) {
 			e1.printStackTrace();
 		}
-		rate = Account.round(r / 100, 10000);
+		rate = Util.round(r / 100, 10000);
 	}
 }

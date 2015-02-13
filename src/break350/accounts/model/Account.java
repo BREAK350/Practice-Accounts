@@ -3,6 +3,7 @@ package break350.accounts.model;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import break350.accounts.utils.Util;
 
 public class Account {
 	private SimpleIntegerProperty index;
@@ -93,8 +94,8 @@ public class Account {
 		int working = getWorking();
 		double salaryInEUR = getEUR(working, worked.get(), hospital.get(),
 				salary.get());
-		eur.set(round(salaryInEUR, 100));
-		uah.set(round(salaryInEUR * rate, 100));
+		eur.set(Util.round(salaryInEUR, 100));
+		uah.set(Util.round(salaryInEUR * rate, 100));
 	}
 
 	public void setHospital(int newHospital, double rate) {
@@ -138,9 +139,5 @@ public class Account {
 			double salary) {
 		double sd = salary / working;
 		return worked * sd + hospital * sd / 2;
-	}
-
-	public static double round(double value, int dec) {
-		return (double) ((int) (value * dec)) / dec;
 	}
 }
