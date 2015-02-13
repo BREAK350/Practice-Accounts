@@ -28,6 +28,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.converter.IntegerStringConverter;
+import break350.accounts.Configs;
 import break350.accounts.model.Account;
 import break350.accounts.model.AccountsData;
 import break350.accounts.model.FileAccountLoader;
@@ -160,7 +161,8 @@ public class MainController implements Initializable {
 			public void handle(ActionEvent event) {
 				FXMLLoader loader = new FXMLLoader();
 				Stage stage = new Stage();
-				File fileMonth = new File("design/fxml/MonthDialog.fxml");
+				File fileMonth = new File(Configs.getProperties().getProperty(
+						Configs.pathToMonthFXML));
 				try {
 					loader.setLocation(fileMonth.toURI().toURL());
 					Parent parent;

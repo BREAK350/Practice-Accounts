@@ -14,16 +14,23 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			File fileMain = new File("design/fxml/Main.fxml");
+
+			File fileMain = new File(Configs.getProperties().getProperty(
+					Configs.pathToMainFXML));
 			loader.setLocation(fileMain.toURI().toURL());
 			Parent content = (Parent) loader.load();
 			Scene scene = new Scene(content);
-			File fileCss = new File("design/style/main.css");
+
+			File fileCss = new File(Configs.getProperties().getProperty(
+					Configs.pathToMainCSS));
 			scene.getStylesheets()
 					.add(fileCss.toURI().toURL().toExternalForm());
+
 			primaryStage.setScene(scene);
+
 			MainController mainController = loader.getController();
 			mainController.setStage(primaryStage);
+
 			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
