@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import break350.accounts.Configs;
+
 public class Days {
 	private static int[] days = new int[12];
 	private static int month = 0;
@@ -55,7 +57,8 @@ public class Days {
 		try {
 			@SuppressWarnings("resource")
 			BufferedReader inputStream = new BufferedReader(
-					new java.io.FileReader("Months.txt"));
+					new java.io.FileReader(Configs.getProperties().getProperty(
+							Configs.pathToMonthsTXT)));
 			String row;
 			int i = 0;
 			while ((row = inputStream.readLine()) != null) {

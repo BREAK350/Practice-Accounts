@@ -13,7 +13,9 @@ public class Configs {
 	public final static String pathToMonthFXML = "path_to_month.fxml";
 	public final static String pathToMainCSS = "path_to_main.css";
 	public final static String pathToMonthCSS = "path_to_month.css";
-	public final static String language = "language";
+
+	public final static String pathToEmployeesTXT = "path_to_employees.txt";
+	public final static String pathToMonthsTXT = "path_to_months.txt";
 
 	private static Properties properties = null;
 
@@ -67,6 +69,8 @@ public class Configs {
 		properties.setProperty(pathToMonthFXML, "design/fxml/MonthDialog.fxml");
 		properties.setProperty(pathToMainCSS, "design/style/main.css");
 		properties.setProperty(pathToMonthCSS, "design/style/month.css");
-		properties.setProperty(language, "lang/ua/");
+
+		properties.setProperty(pathToEmployeesTXT, "Employees.txt");
+		properties.setProperty(pathToMonthsTXT, "Months.txt");
 	}
 }

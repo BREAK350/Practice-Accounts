@@ -4,16 +4,15 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import break350.accounts.Configs;
 import break350.accounts.model.Account;
 import break350.accounts.model.Days;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class FileAccountLoader implements AccountLoader {
-	private String fileName;
 
-	public FileAccountLoader(String fileName) {
-		this.fileName = fileName;
+	public FileAccountLoader() {
 	}
 
 	public ObservableList<Account> load() {
@@ -21,7 +20,8 @@ public class FileAccountLoader implements AccountLoader {
 		try {
 			@SuppressWarnings("resource")
 			BufferedReader inputStream = new BufferedReader(
-					new java.io.FileReader(fileName));
+					new java.io.FileReader(Configs.getProperties().getProperty(
+							Configs.pathToEmployeesTXT)));
 			String row;
 			int index = 1;
 			while ((row = inputStream.readLine()) != null) {
