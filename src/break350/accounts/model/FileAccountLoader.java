@@ -10,12 +10,10 @@ import javafx.collections.ObservableList;
 public class FileAccountLoader implements AccountLoader {
 	private String fileName;
 	private int working;
-	private double rate;
 
-	public FileAccountLoader(String fileName, int working, double rate) {
+	public FileAccountLoader(String fileName, int working) {
 		this.fileName = fileName;
 		this.working = working;
-		this.rate = rate;
 	}
 
 	public ObservableList<Account> load() {
@@ -33,7 +31,7 @@ public class FileAccountLoader implements AccountLoader {
 				int hospital = Integer.parseInt(spl[2]);
 				double salary = Double.parseDouble(spl[3]);
 				Account ac = new Account(index++, name, own, hospital, salary,
-						working, rate);
+						working);
 				list.add(ac);
 			}
 		} catch (FileNotFoundException e) {

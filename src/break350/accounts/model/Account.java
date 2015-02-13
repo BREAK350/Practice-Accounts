@@ -3,6 +3,7 @@ package break350.accounts.model;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import break350.accounts.rate.Rate;
 import break350.accounts.utils.Util;
 
 public class Account {
@@ -29,7 +30,7 @@ public class Account {
 	}
 
 	public Account(int index, String name, int own, int hospital,
-			double salary, int working, double rate) {
+			double salary, int working) {
 		super();
 		this.index = new SimpleIntegerProperty(index);
 		this.name = new SimpleStringProperty(name);
@@ -39,7 +40,7 @@ public class Account {
 		this.salary = new SimpleDoubleProperty(salary);
 		this.eur = new SimpleDoubleProperty(getEUR(working, worked.get(),
 				hospital, salary));
-		this.uah = new SimpleDoubleProperty(eur.get() * rate);
+		this.uah = new SimpleDoubleProperty(eur.get() * Rate.getRate());
 	}
 
 	public SimpleIntegerProperty indexProperty() {
@@ -74,7 +75,7 @@ public class Account {
 		return uah;
 	}
 
-	public void setOwn(int newOwn, double rate) {
+	public void setOwn(int newOwn) {
 		int free = worked.get() + own.get();
 		if (newOwn < 0 || free == 0) {
 			newOwn = 0;
@@ -83,7 +84,7 @@ public class Account {
 		}
 		this.own.set(newOwn <= free ? newOwn : free);
 		worked.set(free - own.get());
-		calculateSalary(rate);
+		calculateSalary(Rate.getRate());
 	}
 
 	public int getWorking() {
@@ -98,7 +99,7 @@ public class Account {
 		uah.set(Util.round(salaryInEUR * rate, 100));
 	}
 
-	public void setHospital(int newHospital, double rate) {
+	public void setHospital(int newHospital) {
 		int free = worked.get() + hospital.get();
 		if (newHospital < 0 || free == 0) {
 			newHospital = 0;
@@ -107,7 +108,7 @@ public class Account {
 		}
 		this.hospital.set(newHospital <= free ? newHospital : free);
 		worked.set(free - hospital.get());
-		calculateSalary(rate);
+		calculateSalary(Rate.getRate());
 	}
 
 	public void setWorkingDay(int newWorking, double rate) {

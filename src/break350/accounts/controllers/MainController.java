@@ -29,12 +29,16 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.converter.IntegerStringConverter;
 import break350.accounts.Configs;
+import break350.accounts.dao.AccountDao;
+import break350.accounts.dao.AccountDaoImpl;
 import break350.accounts.model.Account;
 import break350.accounts.model.AccountsData;
 import break350.accounts.model.FileAccountLoader;
+import break350.accounts.rate.Rate;
+import break350.accounts.rate.Rateable;
 import break350.accounts.report.Report;
 
-public class MainController implements Initializable {
+public class MainController implements Initializable, Rateable {
 	private Stage stage;
 	@FXML
 	private TextField rate;
@@ -72,19 +76,21 @@ public class MainController implements Initializable {
 	private TableColumn<Account, Double> uah;
 
 	private AccountsData accountsData = new AccountsData();
+	private AccountDao accountDao = new AccountDaoImpl();
 
 	public void initialize(URL location, ResourceBundle resources) {
 		setCellsValueFactorys();
 		setCellsFactorys();
 		setOnActions();
 		initRate();
-		FileAccountLoader loader = new FileAccountLoader("Employees.txt", 20,
-				getRate());
+		FileAccountLoader loader = new FileAccountLoader("Employees.txt", 20);
 		accountsData.loadAccounts(loader);
 		accountsData.loadDays("Months.txt");
 		accountsData.initDays();
 		working.setText(String.valueOf(accountsData.getWorkingDay()));
 		table.setItems(accountsData.getData());
+		Rate.addRateable(this);
+		Rate.addRateable(accountDao);
 	}
 
 	public void setMonth(int month) {
@@ -113,18 +119,8 @@ public class MainController implements Initializable {
 		rate.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				double rate = -1;
-				try {
-					rate = getRate();
-				} catch (NumberFormatException e) {
-
-				}
-				if (rate <= 0) {
-					accountsData.loadRateFromWeb();
-					rate = accountsData.getRate();
-					MainController.this.rate.setText(String.valueOf(rate));
-				}
-				accountsData.setRate(rate);
+				double rate = getRateFromTextField();
+				Rate.setRate(rate);
 			}
 		});
 		print.setOnAction(new EventHandler<ActionEvent>() {
@@ -193,8 +189,14 @@ public class MainController implements Initializable {
 		});
 	}
 
-	public double getRate() {
-		return Double.parseDouble(this.rate.getText());
+	public double getRateFromTextField() {
+		double r = -1;
+		try {
+			r = Double.parseDouble(this.rate.getText());
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		return r;
 	}
 
 	private void setCellsFactorys() {
@@ -204,8 +206,8 @@ public class MainController implements Initializable {
 
 			public void handle(CellEditEvent<Object, Integer> event) {
 				((Account) event.getTableView().getItems()
-						.get(event.getTablePosition().getRow())).setOwn(
-						event.getNewValue(), getRate());
+						.get(event.getTablePosition().getRow())).setOwn(event
+						.getNewValue());
 			}
 		});
 
@@ -215,8 +217,8 @@ public class MainController implements Initializable {
 
 			public void handle(CellEditEvent<Object, Integer> event) {
 				((Account) event.getTableView().getItems()
-						.get(event.getTablePosition().getRow())).setHospital(
-						event.getNewValue(), getRate());
+						.get(event.getTablePosition().getRow()))
+						.setHospital(event.getNewValue());
 			}
 		});
 	}
@@ -286,6 +288,11 @@ public class MainController implements Initializable {
 				return param.getValue().uahProperty().asObject();
 			}
 		});
+	}
+
+	@Override
+	public void setRate(double newRate) {
+		rate.setText(String.valueOf(newRate));
 	}
 
 }

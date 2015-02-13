@@ -2,11 +2,10 @@ package break350.accounts.dao;
 
 import javafx.collections.ObservableList;
 import break350.accounts.model.Account;
+import break350.accounts.rate.Rateable;
 
-public interface AccountDao {
+public interface AccountDao extends Rateable {
 	public ObservableList<Account> getAllAccounts();
-
-	public void setNewRate(double rate);
 
 	public void setNewWorking(int working);
 }
