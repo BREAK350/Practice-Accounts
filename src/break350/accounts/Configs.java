@@ -12,7 +12,7 @@ public class Configs {
 	public final static String pathToMainFXML = "path_to_main.fxml";
 	public final static String pathToMonthFXML = "path_to_month.fxml";
 	public final static String pathToMainCSS = "path_to_main.css";
-	public final static String pathToMonthCSS = "path_to_main.css";
+	public final static String pathToMonthCSS = "path_to_month.css";
 	public final static String language = "language";
 
 	private static Properties properties = null;
