@@ -1,10 +1,11 @@
-package break350.accounts.model;
+package break350.accounts.service;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import break350.accounts.days.Days;
+import break350.accounts.model.Account;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
