@@ -23,8 +23,10 @@ public class FileAccountLoader implements AccountLoader {
 		try {
 			String fileName = Configs.getProperties().getProperty(
 					Configs.pathToEmployeesTXT);
+			String encodingForEmplotees = Configs.getProperties().getProperty(
+					Configs.encodingForEmplotees);
 			Reader r = new InputStreamReader(new FileInputStream(fileName),
-					"UTF-8");
+					encodingForEmplotees);
 			@SuppressWarnings("resource")
 			BufferedReader inputStream = new BufferedReader(r);
 			String row;

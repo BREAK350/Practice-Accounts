@@ -17,6 +17,8 @@ public class Configs {
 	public final static String pathToEmployeesTXT = "path_to_employees.txt";
 	public final static String pathToMonthsTXT = "path_to_months.txt";
 
+	public final static String encodingForEmplotees = "encodingForEmployees";
+
 	private static Properties properties = null;
 
 	public static Properties getProperties() {
@@ -72,5 +74,7 @@ public class Configs {
 
 		properties.setProperty(pathToEmployeesTXT, "Employees.txt");
 		properties.setProperty(pathToMonthsTXT, "Months.txt");
+
+		properties.setProperty(encodingForEmplotees, "UTF-8");
 	}
 }
