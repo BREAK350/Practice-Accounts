@@ -24,7 +24,7 @@ public class FileAccountLoader implements AccountLoader {
 			String fileName = Configs.getProperties().getProperty(
 					Configs.pathToEmployeesTXT);
 			String encodingForEmplotees = Configs.getProperties().getProperty(
-					Configs.encodingForEmplotees);
+					Configs.encodingForEmployees);
 			Reader r = new InputStreamReader(new FileInputStream(fileName),
 					encodingForEmplotees);
 			@SuppressWarnings("resource")
