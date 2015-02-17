@@ -28,7 +28,9 @@ public class Rate {
 	private static List<Rateable> rateables = new ArrayList<Rateable>();
 
 	public static void addRateable(Rateable rateable) {
-		rateables.add(rateable);
+		if (rateable != null) {
+			rateables.add(rateable);
+		}
 	}
 
 	public static void removeRateable(Rateable rateable) {
@@ -134,7 +136,7 @@ public class Rate {
 
 	public static void addAllRateable(Rateable... rateables) {
 		for (int i = 0; i < rateables.length; i++) {
-			Rate.rateables.add(rateables[i]);
+			addRateable(rateables[i]);
 		}
 	}
 }
