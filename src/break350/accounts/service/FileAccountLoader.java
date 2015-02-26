@@ -22,7 +22,7 @@ public class FileAccountLoader implements AccountLoader {
 		ObservableList<Account> list = FXCollections.observableArrayList();
 		try {
 			String fileName = Configs.getProperties().getProperty(
-					Configs.pathToEmployeesTXT);
+					Configs.pathToEmployeesFile);
 			String encodingForEmployees = Configs.getProperties().getProperty(
 					Configs.encodingForEmployees);
 			Reader r = new InputStreamReader(new FileInputStream(fileName),

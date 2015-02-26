@@ -14,8 +14,8 @@ public class Configs {
 	public final static String pathToMainCSS = "path_to_main.css";
 	public final static String pathToMonthCSS = "path_to_month.css";
 
-	public final static String pathToEmployeesTXT = "path_to_employees.txt";
-	public final static String pathToMonthsTXT = "path_to_months.txt";
+	public final static String pathToEmployeesFile = "path_to_employees_file";
+	public final static String pathToMonthsFile = "path_to_months_file";
 
 	public final static String encodingForEmployees = "encodingForEmployees";
 
@@ -72,8 +72,8 @@ public class Configs {
 		properties.setProperty(pathToMainCSS, "design/style/main.css");
 		properties.setProperty(pathToMonthCSS, "design/style/month.css");
 
-		properties.setProperty(pathToEmployeesTXT, "Employees.txt");
-		properties.setProperty(pathToMonthsTXT, "Months.txt");
+		properties.setProperty(pathToEmployeesFile, "Employees.txt");
+		properties.setProperty(pathToMonthsFile, "Months.txt");
 
 		properties.setProperty(encodingForEmployees, "UTF-8");
 	}

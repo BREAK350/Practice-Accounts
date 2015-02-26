@@ -58,7 +58,7 @@ public class Days {
 			@SuppressWarnings("resource")
 			BufferedReader inputStream = new BufferedReader(
 					new java.io.FileReader(Configs.getProperties().getProperty(
-							Configs.pathToMonthsTXT)));
+							Configs.pathToMonthsFile)));
 			String row;
 			int i = 0;
 			while ((row = inputStream.readLine()) != null) {
